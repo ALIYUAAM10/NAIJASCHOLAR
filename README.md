@@ -2,7 +2,7 @@
 
 An open-source, phone-friendly study platform for JAMB candidates and university students across Nigeria, first built for learners in Gombe State. It is a single-page static website built with HTML, CSS, vanilla JavaScript, and JSON. There is no backend, account, or paid service.
 
-**Live app:** [https://aliyumuhammadabdulkadir212-alt.github.io/NAIJAPREP/](https://aliyumuhammadabdulkadir212-alt.github.io/NAIJAPREP/)
+**Live app:** [https://aliyuaam10.github.io/NAIJAPREP/](https://aliyuaam10.github.io/NAIJAPREP/)
 
 ## Why this app
 
