@@ -9,9 +9,11 @@ export default function Dashboard({ dashboard, quizzes, onStartQuiz }) {
     ? Object.entries(quizzes || {}).flatMap(([subj, list]) => list)
     : quizzes[selectedSubject] || [];
 
-  const completedCount = dashboard?.stats?.completed_quizzes || 0;
-  const avgScore = dashboard?.stats?.average_score ? Number(dashboard.stats.average_score).toFixed(1) : 0;
-  const attempts = dashboard?.attempts || [];
+  const completedCount = dashboard?.stats?.completedExams || 0;
+  const avgScore = dashboard?.stats?.averagePercentage != null
+    ? Number(dashboard.stats.averagePercentage).toFixed(1)
+    : '0.0';
+  const attempts = dashboard?.recentAttempts || dashboard?.attempts || [];
 
   return (
     <div className="space-y-6 pb-12">
@@ -97,7 +99,7 @@ export default function Dashboard({ dashboard, quizzes, onStartQuiz }) {
                       {quiz.subject}
                     </span>
                     <span className="flex items-center gap-1 text-xs font-medium text-slate-400">
-                      ⏱️ {quiz.duration_minutes} mins
+                      ⏱️ {quiz.durationMinutes} mins
                     </span>
                   </div>
                   <h4 className="text-lg font-bold text-white group-hover:text-emerald-400 transition">
@@ -127,7 +129,9 @@ export default function Dashboard({ dashboard, quizzes, onStartQuiz }) {
         {attempts.length > 0 ? (
           <div className="space-y-3">
             {attempts.slice(0, 10).map((attempt) => {
-              const scorePct = Math.round((attempt.score / attempt.total_questions) * 100);
+              const scorePct = Number.isFinite(attempt.percentage)
+                ? Math.round(attempt.percentage)
+                : Math.round((attempt.score / (attempt.totalQuestions || 1)) * 100);
               return (
                 <div
                   key={attempt.id}
@@ -138,7 +142,7 @@ export default function Dashboard({ dashboard, quizzes, onStartQuiz }) {
                       <span className="text-xs font-semibold text-emerald-400">{attempt.subject}</span>
                       <span className="text-xs text-slate-500">•</span>
                       <span className="text-xs text-slate-400">
-                        {new Date(attempt.completed_at).toLocaleDateString(undefined, {
+                        {new Date(attempt.completedAt).toLocaleString(undefined, {
                           month: 'short',
                           day: 'numeric',
                           year: 'numeric',
@@ -153,7 +157,7 @@ export default function Dashboard({ dashboard, quizzes, onStartQuiz }) {
                   <div className="flex items-center gap-4 self-end sm:self-auto">
                     <div className="text-right">
                       <div className="text-sm font-bold text-white">
-                        {attempt.score} / {attempt.total_questions}
+                        {attempt.score} / {attempt.totalQuestions}
                       </div>
                       <div className={`text-xs font-semibold ${scorePct >= 50 ? 'text-emerald-400' : 'text-rose-400'}`}>
                         {scorePct}% Score

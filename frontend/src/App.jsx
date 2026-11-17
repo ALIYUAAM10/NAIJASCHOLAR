@@ -1,96 +1,154 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Navbar from './components/Navbar';
 import AuthScreen from './components/AuthScreen';
 import Dashboard from './components/Dashboard';
 import QuizSession from './components/QuizSession';
 import QuizResult from './components/QuizResult';
 import { api } from './services/api';
+import {
+  firebaseConfigError,
+  logout,
+  subscribeToAuth,
+} from './services/firebase';
 import { useQuizTimer } from './hooks/useQuizTimer';
 
-export default function App() {
-  const [token, setToken] = useState(() => {
-    try {
-      return localStorage.getItem('token') || '';
-    } catch {
-      return '';
-    }
-  });
+function groupBySubject(exams) {
+  const grouped = {};
+  for (const exam of exams) {
+    if (!grouped[exam.subject]) grouped[exam.subject] = [];
+    grouped[exam.subject].push(exam);
+  }
+  return grouped;
+}
 
-  const [user, setUser] = useState(() => {
-    try {
-      const storedUser = localStorage.getItem('user');
-      if (!storedUser || storedUser === 'undefined') return null;
-      return JSON.parse(storedUser);
-    } catch (e) {
-      console.warn('Clearing invalid user data from localStorage:', e);
-      try {
-        localStorage.removeItem('user');
-      } catch {}
-      return null;
-    }
-  });
+function DashboardSkeleton({ message }) {
+  return (
+    <div className="text-center py-20 text-slate-400 font-medium">
+      {message}
+    </div>
+  );
+}
+
+export default function App() {
+  const [authReady, setAuthReady] = useState(false);
+  const [firebaseUser, setFirebaseUser] = useState(null);
+  const [profile, setProfile] = useState(null);
+  const [reloadKey, setReloadKey] = useState(0);
 
   const [quizzes, setQuizzes] = useState({});
   const [dashboard, setDashboard] = useState(null);
+  const [profileLoading, setProfileLoading] = useState(false);
 
-  // Active quiz state
   const [selectedQuiz, setSelectedQuiz] = useState(null);
+  const [sessionId, setSessionId] = useState('');
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({});
   const [result, setResult] = useState(null);
 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const submitLock = useRef(false);
+  const autoSubmitAttempted = useRef(false);
 
-  const timer = useQuizTimer(selectedQuiz?.duration_minutes || 0);
+  const timer = useQuizTimer(selectedQuiz?.durationMinutes || 0);
 
   useEffect(() => {
-    if (token) {
-      loadDashboard();
-      loadQuizzes();
+    return subscribeToAuth((user) => {
+      setFirebaseUser(user);
+      setAuthReady(true);
+    });
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    if (!firebaseUser) {
+      setProfile(null);
+      setDashboard(null);
+      setQuizzes({});
+      setSelectedQuiz(null);
+      setSessionId('');
+      setQuestions([]);
+      setAnswers({});
+      setResult(null);
+      setProfileLoading(false);
+      return () => {
+        cancelled = true;
+      };
     }
-  }, [token]);
 
-  // Handle auto-submit on timer expiration
+    setProfileLoading(true);
+    setError('');
+
+    (async () => {
+      try {
+        const [me, exams] = await Promise.all([api.getMe(), api.getExams()]);
+        if (cancelled) return;
+
+        setProfile(me.user);
+        setDashboard({
+          stats: me.user.stats,
+          recentAttempts: me.user.recentAttempts,
+        });
+        setQuizzes(groupBySubject(exams.items || []));
+      } catch (err) {
+        if (!cancelled) {
+          setError(err.message || 'Failed to load your account.');
+        }
+      } finally {
+        if (!cancelled) setProfileLoading(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [firebaseUser, reloadKey]);
+
   useEffect(() => {
-    if (timer.isExpired && selectedQuiz && !result && questions.length > 0) {
+    if (
+      timer.isExpired &&
+      selectedQuiz &&
+      sessionId &&
+      !result &&
+      !loading &&
+      !autoSubmitAttempted.current
+    ) {
+      autoSubmitAttempted.current = true;
       handleSubmitQuiz();
     }
-  }, [timer.isExpired, selectedQuiz, result, questions]);
-
-  const loadQuizzes = async () => {
-    try {
-      const data = await api.getQuizzes();
-      setQuizzes(data);
-    } catch (err) {
-      setError(err.message);
-    }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timer.isExpired, selectedQuiz, sessionId, result, loading, answers]);
 
   const loadDashboard = async () => {
+    const me = await api.getMe();
+    setProfile(me.user);
+    setDashboard({
+      stats: me.user.stats,
+      recentAttempts: me.user.recentAttempts,
+    });
+  };
+
+  const handleLogout = async () => {
     try {
-      const data = await api.getDashboard();
-      setDashboard(data);
+      await logout();
     } catch (err) {
-      setError(err.message);
+      setError(err.message || 'Failed to sign out.');
     }
-  };
 
-  const handleAuthSuccess = (newToken, newUser) => {
-    localStorage.setItem('token', newToken);
-    localStorage.setItem('user', JSON.stringify(newUser));
-    setToken(newToken);
-    setUser(newUser);
-  };
+    // Remove Phase 1 JWT keys if a user is migrating from the legacy UI.
+    try {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+    } catch {
+      // Ignore storage failures; Firebase owns the active session.
+    }
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    setToken('');
-    setUser(null);
+    setProfile(null);
     setDashboard(null);
     setQuizzes({});
     setSelectedQuiz(null);
+    setSessionId('');
     setQuestions([]);
     setAnswers({});
     setResult(null);
@@ -99,12 +157,17 @@ export default function App() {
   const handleStartQuiz = async (quiz) => {
     setError('');
     setLoading(true);
-    setSelectedQuiz(quiz);
+    setSelectedQuiz(null);
+    setSessionId('');
     setResult(null);
     setAnswers({});
+    setQuestions([]);
+    autoSubmitAttempted.current = false;
 
     try {
-      const data = await api.getQuiz(quiz.id);
+      const data = await api.startMock(quiz.id);
+      setSelectedQuiz(data.exam);
+      setSessionId(data.session.id);
       setQuestions(data.questions);
     } catch (err) {
       setError(err.message || 'Failed to start quiz session.');
@@ -114,31 +177,109 @@ export default function App() {
   };
 
   const handleSubmitQuiz = async () => {
-    if (!selectedQuiz) return;
+    if (!sessionId || submitLock.current) return;
+
+    submitLock.current = true;
     setLoading(true);
+    setError('');
 
     try {
-      const res = await api.submitQuiz(selectedQuiz.id, answers);
-      setResult(res);
-      await loadDashboard();
+      const response = await api.submitMock(sessionId, answers);
+      setResult(response);
+
+      try {
+        await loadDashboard();
+      } catch (dashboardError) {
+        console.warn('Score saved, but dashboard refresh failed:', dashboardError);
+      }
     } catch (err) {
       setError(err.message || 'Failed to submit quiz.');
     } finally {
+      submitLock.current = false;
       setLoading(false);
     }
   };
 
   const handleReturnDashboard = () => {
     setSelectedQuiz(null);
+    setSessionId('');
     setQuestions([]);
     setAnswers({});
     setResult(null);
     setError('');
+    autoSubmitAttempted.current = false;
+  };
+
+  const renderContent = () => {
+    if (!authReady) {
+      return <DashboardSkeleton message="Restoring your session..." />;
+    }
+
+    if (!firebaseUser) {
+      return <AuthScreen configError={firebaseConfigError} />;
+    }
+
+    if (profileLoading && !profile) {
+      return <DashboardSkeleton message="Loading your dashboard..." />;
+    }
+
+    if (!profile) {
+      return (
+        <div className="mx-auto max-w-md py-20 text-center">
+          <p className="text-sm text-slate-400">
+            We could not load your profile yet.
+          </p>
+          <button
+            onClick={() => setReloadKey((value) => value + 1)}
+            className="mt-4 rounded-xl bg-emerald-500 px-5 py-2.5 text-sm font-bold text-slate-950"
+          >
+            Retry
+          </button>
+        </div>
+      );
+    }
+
+    if (result) {
+      return (
+        <QuizResult
+          result={result}
+          quiz={selectedQuiz}
+          questions={questions}
+          onReturnDashboard={handleReturnDashboard}
+        />
+      );
+    }
+
+    if (selectedQuiz) {
+      if (loading) {
+        return <DashboardSkeleton message="Loading exam questions..." />;
+      }
+
+      return (
+        <QuizSession
+          quiz={selectedQuiz}
+          questions={questions}
+          answers={answers}
+          setAnswers={setAnswers}
+          onSubmit={handleSubmitQuiz}
+          timer={timer}
+          submitting={loading}
+        />
+      );
+    }
+
+    return (
+      <Dashboard
+        dashboard={dashboard}
+        quizzes={quizzes}
+        onStartQuiz={handleStartQuiz}
+      />
+    );
   };
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans antialiased selection:bg-emerald-500 selection:text-slate-950">
-      <Navbar user={user} onLogout={handleLogout} />
+      <Navbar user={profile} onLogout={handleLogout} />
 
       <main className="mx-auto max-w-6xl px-4 py-6">
         {error && (
@@ -150,37 +291,7 @@ export default function App() {
           </div>
         )}
 
-        {!token || !user ? (
-          <AuthScreen onAuthSuccess={handleAuthSuccess} api={api} />
-        ) : result ? (
-          <QuizResult
-            result={result}
-            quiz={selectedQuiz}
-            questions={questions}
-            onReturnDashboard={handleReturnDashboard}
-          />
-        ) : selectedQuiz ? (
-          loading ? (
-            <div className="text-center py-20 text-slate-400 font-medium">
-              Loading exam questions...
-            </div>
-          ) : (
-            <QuizSession
-              quiz={selectedQuiz}
-              questions={questions}
-              answers={answers}
-              setAnswers={setAnswers}
-              onSubmit={handleSubmitQuiz}
-              timer={timer}
-            />
-          )
-        ) : (
-          <Dashboard
-            dashboard={dashboard}
-            quizzes={quizzes}
-            onStartQuiz={handleStartQuiz}
-          />
-        )}
+        {renderContent()}
       </main>
     </div>
   );

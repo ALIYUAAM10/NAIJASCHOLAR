@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function QuizSession({ quiz, questions, answers, setAnswers, onSubmit, timer }) {
+export default function QuizSession({ quiz, questions, answers, setAnswers, onSubmit, timer, submitting = false }) {
   const answeredCount = Object.keys(answers).length;
   const totalCount = questions.length;
   const progressPercent = totalCount > 0 ? (answeredCount / totalCount) * 100 : 0;
@@ -51,16 +51,7 @@ export default function QuizSession({ quiz, questions, answers, setAnswers, onSu
       {/* Question Cards */}
       <div className="space-y-6">
         {questions.map((q, qIndex) => {
-          let opts = [];
-          if (Array.isArray(q.options)) {
-            opts = q.options;
-          } else if (typeof q.options === 'string') {
-            try {
-              opts = JSON.parse(q.options);
-            } catch {
-              opts = [q.options];
-            }
-          }
+          const opts = Array.isArray(q.options) ? q.options : [];
 
           return (
             <div
@@ -76,7 +67,7 @@ export default function QuizSession({ quiz, questions, answers, setAnswers, onSu
                   {qIndex + 1}
                 </span>
                 <h3 className="text-base font-semibold text-white leading-snug pt-0.5">
-                  {q.question_text}
+                  {q.text}
                 </h3>
               </div>
 
@@ -126,9 +117,12 @@ export default function QuizSession({ quiz, questions, answers, setAnswers, onSu
       <div className="rounded-2xl border border-slate-800 bg-slate-900/90 p-4 text-center">
         <button
           onClick={onSubmit}
-          className="w-full rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 py-3.5 text-sm font-bold text-slate-950 shadow-lg shadow-emerald-500/25 hover:from-emerald-400 hover:to-teal-300 active:scale-[0.99] transition duration-200"
+          disabled={submitting}
+          className="w-full rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 py-3.5 text-sm font-bold text-slate-950 shadow-lg shadow-emerald-500/25 hover:from-emerald-400 hover:to-teal-300 active:scale-[0.99] transition duration-200 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          Submit Quiz Answers ({answeredCount}/{totalCount} Completed)
+          {submitting
+            ? 'Submitting...'
+            : `Submit Quiz Answers (${answeredCount}/${totalCount} Completed)`}
         </button>
       </div>
     </div>

@@ -7,7 +7,7 @@ export default function QuizResult({ result, quiz, questions, onReturnDashboard 
 
   // Build lookup map for question text
   const questionMap = questions.reduce((acc, q) => {
-    acc[q.id] = q.question_text;
+    acc[q.id] = q.text;
     return acc;
   }, {});
 
@@ -91,6 +91,15 @@ export default function QuizResult({ result, quiz, questions, onReturnDashboard 
                     <span className="text-emerald-400 font-bold">{item.correctOption}</span>
                   </div>
                 </div>
+
+                {item.explanation && (
+                  <div className="mt-3 rounded-xl border border-slate-800/80 bg-slate-950/60 p-3">
+                    <span className="mb-1 block text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                      Explanation
+                    </span>
+                    <p className="text-xs leading-relaxed text-slate-300">{item.explanation}</p>
+                  </div>
+                )}
               </div>
             );
           })}

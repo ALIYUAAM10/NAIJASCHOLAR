@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
+import { api } from '../services/api';
+import {
+  friendlyAuthError,
+  loginWithEmail,
+  loginWithGoogle,
+  registerWithEmail,
+} from '../services/firebase';
 
-export default function AuthScreen({ onAuthSuccess, api }) {
+export default function AuthScreen({ configError = '' }) {
   const [mode, setMode] = useState('login');
   const [form, setForm] = useState({ username: '', email: '', password: '' });
   const [error, setError] = useState('');
@@ -13,17 +20,44 @@ export default function AuthScreen({ onAuthSuccess, api }) {
     setLoading(true);
 
     try {
-      const res = mode === 'register'
-        ? await api.register(form)
-        : await api.login({ email: form.email, password: form.password });
+      if (mode === 'register') {
+        await registerWithEmail({
+          email: form.email.trim(),
+          password: form.password,
+          username: form.username.trim(),
+        });
 
-      onAuthSuccess(res.token, res.user);
+        try {
+          await api.updateProfile({ username: form.username.trim() });
+        } catch (profileError) {
+          // The Firebase account exists; the server will lazily create the
+          // profile from the display name if this sync fails.
+          console.warn('Profile sync failed after registration:', profileError);
+        }
+      } else {
+        await loginWithEmail(form.email.trim(), form.password);
+      }
     } catch (err) {
-      setError(err.message || 'Authentication failed.');
+      setError(friendlyAuthError(err));
     } finally {
       setLoading(false);
     }
   };
+
+  const handleGoogle = async () => {
+    setError('');
+    setLoading(true);
+
+    try {
+      await loginWithGoogle();
+    } catch (err) {
+      setError(friendlyAuthError(err));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const disabled = loading || Boolean(configError);
 
   return (
     <div className="min-h-[85vh] flex items-center justify-center px-4 py-8">
@@ -38,7 +72,33 @@ export default function AuthScreen({ onAuthSuccess, api }) {
           </p>
         </div>
 
-        {/* Auth Toggle Tabs */}
+        {configError && (
+          <div className="mb-5 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-xs font-medium text-amber-200">
+            {configError}
+          </div>
+        )}
+
+        <button
+          type="button"
+          onClick={handleGoogle}
+          disabled={disabled}
+          className="mb-5 flex w-full items-center justify-center gap-3 rounded-xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm font-semibold text-slate-200 transition hover:border-slate-600 hover:bg-slate-950 disabled:opacity-50"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5">
+            <path fill="#4285F4" d="M21.6 12.23c0-.71-.06-1.4-.18-2.06H12v3.9h5.38a4.6 4.6 0 0 1-2 3.02v2.52h3.24c1.9-1.75 2.98-4.33 2.98-7.38Z" />
+            <path fill="#34A853" d="M12 22c2.7 0 4.96-.9 6.62-2.39l-3.24-2.52c-.9.6-2.05.96-3.38.96-2.6 0-4.8-1.76-5.59-4.13H3.06v2.6A10 10 0 0 0 12 22Z" />
+            <path fill="#FBBC05" d="M6.41 13.92A6 6 0 0 1 6.1 12c0-.67.11-1.32.31-1.92v-2.6H3.06A10 10 0 0 0 2 12c0 1.61.38 3.13 1.06 4.48l3.35-2.56Z" />
+            <path fill="#EA4335" d="M12 6.04c1.47 0 2.79.5 3.82 1.5l2.87-2.87A9.62 9.62 0 0 0 12 2a10 10 0 0 0-8.94 5.48l3.35 2.6C7.2 7.8 9.4 6.04 12 6.04Z" />
+          </svg>
+          Continue with Google
+        </button>
+
+        <div className="mb-5 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+          <span className="h-px flex-1 bg-slate-800" />
+          or use email
+          <span className="h-px flex-1 bg-slate-800" />
+        </div>
+
         <div className="mb-6 flex rounded-2xl bg-slate-950/70 p-1 border border-slate-800">
           <button
             type="button"
@@ -78,6 +138,9 @@ export default function AuthScreen({ onAuthSuccess, api }) {
               </label>
               <input
                 required
+                minLength={3}
+                maxLength={30}
+                autoComplete="nickname"
                 className="w-full rounded-xl border border-slate-700/80 bg-slate-950/80 px-4 py-3 text-sm text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition"
                 placeholder="e.g. Adebayo123"
                 value={form.username}
@@ -93,6 +156,7 @@ export default function AuthScreen({ onAuthSuccess, api }) {
             <input
               required
               type="email"
+              autoComplete="email"
               className="w-full rounded-xl border border-slate-700/80 bg-slate-950/80 px-4 py-3 text-sm text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition"
               placeholder="student@example.com"
               value={form.email}
@@ -107,7 +171,9 @@ export default function AuthScreen({ onAuthSuccess, api }) {
             <div className="relative">
               <input
                 required
+                minLength={6}
                 type={showPassword ? 'text' : 'password'}
+                autoComplete={mode === 'register' ? 'new-password' : 'current-password'}
                 className="w-full rounded-xl border border-slate-700/80 bg-slate-950/80 px-4 py-3 pr-12 text-sm text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition"
                 placeholder="••••••••"
                 value={form.password}
@@ -120,17 +186,15 @@ export default function AuthScreen({ onAuthSuccess, api }) {
                 className="absolute inset-y-0 right-3 flex items-center text-slate-400 hover:text-emerald-400 transition-colors duration-150"
               >
                 {showPassword ? (
-                  /* Eye-off icon */
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
-                    <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
-                    <line x1="1" y1="1" x2="23" y2="23"/>
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+                    <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+                    <line x1="1" y1="1" x2="23" y2="23" />
                   </svg>
                 ) : (
-                  /* Eye icon */
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-                    <path d="M1 12S5 4 12 4s11 8 11 8-4 8-11 8S1 12 1 12z"/>
-                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M1 12S5 4 12 4s11 8 11 8-4 8-11 8S1 12 1 12z" />
+                    <circle cx="12" cy="12" r="3" />
                   </svg>
                 )}
               </button>
@@ -139,7 +203,7 @@ export default function AuthScreen({ onAuthSuccess, api }) {
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={disabled}
             className="w-full mt-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 py-3.5 text-sm font-bold text-slate-950 shadow-lg shadow-emerald-500/25 hover:from-emerald-400 hover:to-teal-300 active:scale-[0.99] transition duration-200 disabled:opacity-50"
           >
             {loading ? 'Processing...' : mode === 'login' ? 'Sign In to Practice' : 'Register Now'}

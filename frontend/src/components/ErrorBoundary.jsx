@@ -1,4 +1,5 @@
 import React from 'react';
+import { logout } from '../services/firebase';
 
 export class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -14,12 +15,19 @@ export class ErrorBoundary extends React.Component {
     console.error('Uncaught error caught by ErrorBoundary:', error, errorInfo);
   }
 
-  handleReset = () => {
+  handleReset = async () => {
     try {
-      localStorage.clear();
-      sessionStorage.clear();
+      await logout();
     } catch (e) {
-      console.error('Failed to clear storage:', e);
+      console.error('Failed to sign out of Firebase:', e);
+    }
+
+    try {
+      // Remove legacy Phase 1 keys if present. Never wipe unrelated data.
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+    } catch (e) {
+      console.error('Failed to reset local session:', e);
     }
     window.location.reload();
   };
@@ -52,7 +60,7 @@ export class ErrorBoundary extends React.Component {
                 onClick={this.handleReset}
                 className="w-full rounded-xl border border-slate-800 bg-slate-800/80 py-2.5 text-xs font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition"
               >
-                Clear Cache & Reset
+                Reset Session
               </button>
             </div>
           </div>
