@@ -19,13 +19,16 @@ const firebaseConfig = {
     messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '',
 };
 
-const configured = Boolean(
-    firebaseConfig.apiKey && firebaseConfig.projectId && firebaseConfig.appId,
-);
+// Keep this condition inline so Vite/esbuild can fold it and drop the warning
+// string from production bundles when the values are present.
+export const firebaseConfigError =
+    import.meta.env.VITE_FIREBASE_API_KEY &&
+    import.meta.env.VITE_FIREBASE_PROJECT_ID &&
+    import.meta.env.VITE_FIREBASE_APP_ID
+        ? ''
+        : 'Firebase is not configured. Add the VITE_FIREBASE_* variables to frontend/.env.local and redeploy.';
 
-export const firebaseConfigError = configured
-    ? ''
-    : 'Firebase is not configured. Add the VITE_FIREBASE_* variables to frontend/.env.local and redeploy.';
+const configured = firebaseConfigError === '';
 
 export const app = configured ? initializeApp(firebaseConfig) : null;
 export const auth = app ? getAuth(app) : null;
