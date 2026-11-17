@@ -1,0 +1,12 @@
+.env
+.env.*
+.git
+node_modules
+frontend/dist
+coverage
+.firebase
+.vercel
+firebase-debug.log
+ui-debug.log
+*.pem
+serviceAccount*.json
