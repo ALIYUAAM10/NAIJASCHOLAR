@@ -1,12 +1,12 @@
 import { Timestamp } from 'firebase-admin/firestore';
 import { z } from 'zod';
-import { getDb } from './_lib/firebase-admin';
-import { withApi } from './_lib/handler';
+import { getDb } from './_lib/firebase-admin.js';
+import { withApi } from './_lib/handler.js';
 import {
   ensureProfile,
   toProfileResponse,
   type ProfileState,
-} from './_lib/profile';
+} from './_lib/profile.js';
 
 const updateProfileSchema = z
   .object({

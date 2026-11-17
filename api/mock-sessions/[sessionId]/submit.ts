@@ -1,20 +1,20 @@
 import { Timestamp } from 'firebase-admin/firestore';
 import { z } from 'zod';
-import { ApiError } from '../../_lib/errors';
-import { parseExam } from '../../_lib/exams';
-import { getDb } from '../../_lib/firebase-admin';
-import { withApi } from '../../_lib/handler';
+import { ApiError } from '../../_lib/errors.js';
+import { parseExam } from '../../_lib/exams.js';
+import { getDb } from '../../_lib/firebase-admin.js';
+import { withApi } from '../../_lib/handler.js';
 import {
   asStoredResult,
   type StoredResult,
-} from '../../_lib/mock-sessions';
+} from '../../_lib/mock-sessions.js';
 import {
   applyAttempt,
   defaultProfile,
   normalizeProfile,
   profileFields,
-} from '../../_lib/profile';
-import { scoreAttempt } from '../../_lib/scoring';
+} from '../../_lib/profile.js';
+import { scoreAttempt } from '../../_lib/scoring.js';
 
 const querySchema = z.object({
   sessionId: z.string().regex(/^[A-Za-z0-9_-]{8,64}$/),

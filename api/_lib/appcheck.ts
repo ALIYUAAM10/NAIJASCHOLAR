@@ -1,8 +1,8 @@
 import type { VercelRequest } from '@vercel/node';
 import { getAppCheck } from 'firebase-admin/app-check';
-import { getEnv } from './env';
-import { getFirebaseApp } from './firebase-admin';
-import { ApiError } from './errors';
+import { getEnv } from './env.js';
+import { getFirebaseApp } from './firebase-admin.js';
+import { ApiError } from './errors.js';
 
 export async function requireAppCheck(req: VercelRequest): Promise<void> {
   const env = getEnv();

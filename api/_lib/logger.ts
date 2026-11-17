@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { getEnv } from './env';
+import { getEnv } from './env.js';
 
 type LogLevel = 'info' | 'warn' | 'error';
 

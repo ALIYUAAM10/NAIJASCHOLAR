@@ -1,7 +1,7 @@
 import { cert, getApps, initializeApp, type App, type AppOptions } from 'firebase-admin/app';
 import { getAuth, type Auth } from 'firebase-admin/auth';
 import { getFirestore, type Firestore } from 'firebase-admin/firestore';
-import { getEnv } from './env';
+import { getEnv } from './env.js';
 
 let app: App | undefined;
 let auth: Auth | undefined;

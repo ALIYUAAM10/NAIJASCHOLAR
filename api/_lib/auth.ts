@@ -1,7 +1,7 @@
 import type { VercelRequest } from '@vercel/node';
 import type { DecodedIdToken } from 'firebase-admin/auth';
-import { getAdminAuth } from './firebase-admin';
-import { ApiError } from './errors';
+import { getAdminAuth } from './firebase-admin.js';
+import { ApiError } from './errors.js';
 
 export interface AuthUser {
   uid: string;

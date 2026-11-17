@@ -86,8 +86,10 @@ submit, single-count profile updates, attempt history and progress.
 3. Set server variables in Vercel and public `VITE_FIREBASE_*` variables in the
    frontend build environment.
 4. Deploy the Vercel project and check `/api/health`.
-5. Run `npm run seed` once to load the marked sample exams.
-6. Keep `APP_CHECK_ENFORCE=false` until the web App Check provider is wired up.
+5. Keep relative imports inside `api/**` suffixed with `.js`; Vercel runs the
+   compiled functions as Node ESM, so extensionless imports fail at runtime.
+6. Run `npm run seed` once to load the marked sample exams.
+7. Keep `APP_CHECK_ENFORCE=false` until the web App Check provider is wired up.
 
 ## Not in Phase 2
 

@@ -1,12 +1,12 @@
 import { z } from 'zod';
-import { ApiError } from '../_lib/errors';
+import { ApiError } from '../_lib/errors.js';
 import {
   parseExam,
   toPublicExam,
   toPublicQuestion,
-} from '../_lib/exams';
-import { getDb } from '../_lib/firebase-admin';
-import { withApi } from '../_lib/handler';
+} from '../_lib/exams.js';
+import { getDb } from '../_lib/firebase-admin.js';
+import { withApi } from '../_lib/handler.js';
 
 const querySchema = z.object({
   examId: z.string().min(1).max(100),

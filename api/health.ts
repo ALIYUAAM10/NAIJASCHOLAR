@@ -1,4 +1,4 @@
-import { withApi } from './_lib/handler';
+import { withApi } from './_lib/handler.js';
 
 export default withApi(
   async ({ res, requestId }) => {

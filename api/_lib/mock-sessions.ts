@@ -1,4 +1,4 @@
-import type { ScoreResult } from './scoring';
+import type { ScoreResult } from './scoring.js';
 
 export interface SessionResponse {
   id: string;

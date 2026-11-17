@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { getEnv } from './env';
+import { getEnv } from './env.js';
 
 function headerValue(
   req: VercelRequest,

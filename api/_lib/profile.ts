@@ -1,6 +1,6 @@
 import { Timestamp } from 'firebase-admin/firestore';
-import type { AuthUser } from './auth';
-import { getDb } from './firebase-admin';
+import type { AuthUser } from './auth.js';
+import { getDb } from './firebase-admin.js';
 
 export interface OverallStats {
   completedExams: number;

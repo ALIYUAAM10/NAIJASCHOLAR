@@ -1,11 +1,11 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import type { ZodType } from 'zod';
-import { applyCors } from './cors';
-import { requireAppCheck } from './appcheck';
-import { requireUser, type AuthUser } from './auth';
-import { ApiError, toErrorBody } from './errors';
-import { hashUid, log } from './logger';
-import { getRequestId } from './request-id';
+import { applyCors } from './cors.js';
+import { requireAppCheck } from './appcheck.js';
+import { requireUser, type AuthUser } from './auth.js';
+import { ApiError, toErrorBody } from './errors.js';
+import { hashUid, log } from './logger.js';
+import { getRequestId } from './request-id.js';
 
 export interface ApiContext<TBody = unknown, TQuery = unknown> {
   req: VercelRequest;

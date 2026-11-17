@@ -1,5 +1,5 @@
-import { withApi } from '../_lib/handler';
-import { ensureProfile } from '../_lib/profile';
+import { withApi } from '../_lib/handler.js';
+import { ensureProfile } from '../_lib/profile.js';
 
 export default withApi(
   async ({ res, user }) => {

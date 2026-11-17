@@ -1,6 +1,6 @@
 import type { DocumentData } from 'firebase-admin/firestore';
 import { z } from 'zod';
-import { ApiError } from './errors';
+import { ApiError } from './errors.js';
 
 const examQuestionSchema = z
   .object({

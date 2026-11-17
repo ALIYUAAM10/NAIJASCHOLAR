@@ -1,4 +1,4 @@
-import type { ExamQuestion } from './exams';
+import type { ExamQuestion } from './exams.js';
 
 export interface ReviewItem {
   questionId: string;

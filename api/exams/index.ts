@@ -1,15 +1,15 @@
 import { FieldPath } from 'firebase-admin/firestore';
 import { z } from 'zod';
-import { ApiError } from '../_lib/errors';
-import { parseExam, toPublicExam } from '../_lib/exams';
-import { getDb } from '../_lib/firebase-admin';
-import { withApi } from '../_lib/handler';
+import { ApiError } from '../_lib/errors.js';
+import { parseExam, toPublicExam } from '../_lib/exams.js';
+import { getDb } from '../_lib/firebase-admin.js';
+import { withApi } from '../_lib/handler.js';
 import {
   decodeCursor,
   encodeCursor,
   parseLimit,
   type CursorKey,
-} from '../_lib/pagination';
+} from '../_lib/pagination.js';
 
 const querySchema = z.object({
   limit: z.string().optional(),
