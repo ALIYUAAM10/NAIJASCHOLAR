@@ -67,7 +67,23 @@ export const api = {
     getMe: () => request('/me'),
     updateProfile: (data) =>
         request('/me', { method: 'PATCH', body: JSON.stringify(data) }),
-    getExams: () => request('/exams'),
+    getExams: async () => {
+        const items = [];
+        let cursor = null;
+        let pages = 0;
+
+        do {
+            const params = new URLSearchParams({ limit: '50' });
+            if (cursor) params.set('cursor', cursor);
+
+            const page = await request(`/exams?${params.toString()}`);
+            items.push(...(page.items || []));
+            cursor = page.nextCursor || null;
+            pages += 1;
+        } while (cursor && pages < 20);
+
+        return { items };
+    },
     startMock: (examId) =>
         request('/mock-sessions', {
             method: 'POST',
