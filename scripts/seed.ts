@@ -1,13 +1,13 @@
 import { Timestamp } from 'firebase-admin/firestore';
 import { getDb } from '../api/_lib/firebase-admin';
-import { sampleExams } from './sample-content';
+import { allSeedExams } from './content';
 
 async function seed(): Promise<void> {
   const db = getDb();
   let created = 0;
   let updated = 0;
 
-  for (const exam of sampleExams) {
+  for (const exam of allSeedExams) {
     const { id, ...content } = exam;
     const ref = db.collection('exams').doc(id);
     const existing = await ref.get();
@@ -30,7 +30,7 @@ async function seed(): Promise<void> {
   }
 
   console.log(
-    `Seed complete: ${created} sample exams created, ${updated} updated.`,
+    `Seed complete: ${created} exams created, ${updated} updated (${allSeedExams.length} total).`,
   );
 }
 

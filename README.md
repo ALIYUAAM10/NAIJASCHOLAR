@@ -18,7 +18,9 @@ PostgreSQL/JWT backend and Render configuration have been removed.
 - **Data:** Firestore, accessed only from server code. Direct client access is
   denied by rules.
 - **Content:** sample exams are seeded from `scripts/sample-content.ts` and are
-  explicitly marked `sample: true`.
+  explicitly marked `sample: true`. The full study content is generated from the
+  ported legacy JSON in `frontend/public/data/` by `scripts/content.ts`, covering
+  JAMB subjects/topics, a full mock, and university course units.
 - **No AI dependency:** all explanations, hints and study tips are static
   Firestore content served through cached API responses. No model or provider is
   required by any feature.
@@ -34,6 +36,11 @@ PostgreSQL/JWT backend and Render configuration have been removed.
   profile document.
 - Cursor pagination on list endpoints and CDN caching for the public exam list.
 - Deny-all Firestore and Storage rules plus emulator-based rules tests.
+- A study hub with JAMB/university paths, 15 JAMB subjects and topic practice,
+  a 100-question full mock, faculty/course browsing, levels 100-600, GST units,
+  course-unit practice, search, a searchable study library and past questions.
+- Local study tools: plan builder, streak tracker, CGPA calculator, contribution
+  guide, one-question-at-a-time quiz view, question palette, and topic breakdowns.
 
 ## Repository layout
 

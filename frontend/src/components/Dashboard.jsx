@@ -22,13 +22,13 @@ export default function Dashboard({ dashboard, quizzes, onStartQuiz }) {
         <div className="absolute top-0 right-0 -mt-10 -mr-10 h-48 w-48 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
         <div className="relative z-10 max-w-2xl">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 text-xs font-semibold text-emerald-400 mb-3">
-            ✨ Exam Readiness Hub
+            ⏱️ Timed practice
           </span>
           <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">
-            Master JAMB & WAEC Quizzes
+            Practice Exams
           </h2>
           <p className="mt-2 text-sm text-slate-300">
-            Select a subject below to take a timed practice session with server-evaluated scoring.
+            JAMB, WAEC and university question banks. Every session is scored by the server.
           </p>
         </div>
       </div>
@@ -96,7 +96,7 @@ export default function Dashboard({ dashboard, quizzes, onStartQuiz }) {
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <span className="rounded-md bg-emerald-500/10 px-2.5 py-1 text-[11px] font-bold uppercase text-emerald-400 border border-emerald-500/20">
-                      {quiz.subject}
+                      {quiz.examType || quiz.subject}
                     </span>
                     <span className="flex items-center gap-1 text-xs font-medium text-slate-400">
                       ⏱️ {quiz.durationMinutes} mins

@@ -19,7 +19,7 @@ const examQuestionSchema = z
 const examDocumentSchema = z.object({
   title: z.string().min(1).max(200),
   subject: z.string().min(1).max(100),
-  examType: z.enum(['JAMB', 'WAEC', 'Post-UTME']),
+  examType: z.enum(['JAMB', 'WAEC', 'Post-UTME', 'University']),
   durationMinutes: z.number().int().min(1).max(240),
   published: z.boolean(),
   sample: z.boolean().default(false),

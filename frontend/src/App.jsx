@@ -2,6 +2,16 @@ import React, { useEffect, useRef, useState } from 'react';
 import Navbar from './components/Navbar';
 import AuthScreen from './components/AuthScreen';
 import Dashboard from './components/Dashboard';
+import StudyHub from './components/StudyHub';
+import JambHub, { JambSubject } from './components/JambHub';
+import UniversityHub, {
+  UniversityCourse,
+  UniversityFaculty,
+  UniversityGst,
+  UniversityLevel,
+} from './components/UniversityHub';
+import Library from './components/Library';
+import { Contribute, Cgpa, Planner, Streak } from './components/StudentTools';
 import QuizSession from './components/QuizSession';
 import QuizResult from './components/QuizResult';
 import { api } from './services/api';
@@ -35,6 +45,9 @@ export default function App() {
   const [profile, setProfile] = useState(null);
   const [reloadKey, setReloadKey] = useState(0);
 
+  const [view, setView] = useState('home');
+  const [viewData, setViewData] = useState({});
+  const [exams, setExams] = useState([]);
   const [quizzes, setQuizzes] = useState({});
   const [dashboard, setDashboard] = useState(null);
   const [profileLoading, setProfileLoading] = useState(false);
@@ -44,6 +57,7 @@ export default function App() {
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({});
   const [result, setResult] = useState(null);
+  const quizOrigin = useRef({ view: 'home', data: {} });
 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -65,7 +79,10 @@ export default function App() {
     if (!firebaseUser) {
       setProfile(null);
       setDashboard(null);
+      setExams([]);
       setQuizzes({});
+      setView('home');
+      setViewData({});
       setSelectedQuiz(null);
       setSessionId('');
       setQuestions([]);
@@ -82,7 +99,7 @@ export default function App() {
 
     (async () => {
       try {
-        const [me, exams] = await Promise.all([api.getMe(), api.getExams()]);
+        const [me, examData] = await Promise.all([api.getMe(), api.getExams()]);
         if (cancelled) return;
 
         setProfile(me.user);
@@ -90,7 +107,8 @@ export default function App() {
           stats: me.user.stats,
           recentAttempts: me.user.recentAttempts,
         });
-        setQuizzes(groupBySubject(exams.items || []));
+        setExams(examData.items || []);
+        setQuizzes(groupBySubject(examData.items || []));
       } catch (err) {
         if (!cancelled) {
           setError(err.message || 'Failed to load your account.');
@@ -120,6 +138,20 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timer.isExpired, selectedQuiz, sessionId, result, loading, answers]);
 
+  const navigate = (nextView, nextData = {}) => {
+    if (view === 'quiz' && nextView !== 'quiz') {
+      setSelectedQuiz(null);
+      setSessionId('');
+      setQuestions([]);
+      setAnswers({});
+      setResult(null);
+    }
+    setView(nextView);
+    setViewData(nextData);
+    setError('');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const loadDashboard = async () => {
     const me = await api.getMe();
     setProfile(me.user);
@@ -136,7 +168,6 @@ export default function App() {
       setError(err.message || 'Failed to sign out.');
     }
 
-    // Remove Phase 1 JWT keys if a user is migrating from the legacy UI.
     try {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
@@ -146,7 +177,10 @@ export default function App() {
 
     setProfile(null);
     setDashboard(null);
+    setExams([]);
     setQuizzes({});
+    setView('home');
+    setViewData({});
     setSelectedQuiz(null);
     setSessionId('');
     setQuestions([]);
@@ -155,6 +189,7 @@ export default function App() {
   };
 
   const handleStartQuiz = async (quiz) => {
+    quizOrigin.current = { view, viewData };
     setError('');
     setLoading(true);
     setSelectedQuiz(null);
@@ -169,6 +204,7 @@ export default function App() {
       setSelectedQuiz(data.exam);
       setSessionId(data.session.id);
       setQuestions(data.questions);
+      navigate('quiz');
     } catch (err) {
       setError(err.message || 'Failed to start quiz session.');
     } finally {
@@ -200,14 +236,17 @@ export default function App() {
     }
   };
 
-  const handleReturnDashboard = () => {
+  const handleReturnFromQuiz = () => {
+    const origin = quizOrigin.current || { view: 'home', data: {} };
     setSelectedQuiz(null);
     setSessionId('');
     setQuestions([]);
     setAnswers({});
     setResult(null);
+    setView(origin.view);
+    setViewData(origin.data);
     setError('');
-    autoSubmitAttempted.current = false;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const renderContent = () => {
@@ -245,7 +284,7 @@ export default function App() {
           result={result}
           quiz={selectedQuiz}
           questions={questions}
-          onReturnDashboard={handleReturnDashboard}
+          onReturnDashboard={handleReturnFromQuiz}
         />
       );
     }
@@ -268,20 +307,69 @@ export default function App() {
       );
     }
 
-    return (
-      <Dashboard
-        dashboard={dashboard}
-        quizzes={quizzes}
-        onStartQuiz={handleStartQuiz}
-      />
-    );
+    if (loading) {
+      return <DashboardSkeleton message="Starting your session..." />;
+    }
+
+    const pageProps = {
+      data: viewData,
+      exams,
+      onNavigate: navigate,
+      onStartExam: handleStartQuiz,
+    };
+
+    switch (view) {
+      case 'jamb':
+        return <JambHub {...pageProps} />;
+      case 'jamb-subject':
+        return <JambSubject {...pageProps} />;
+      case 'university':
+        return <UniversityHub {...pageProps} />;
+      case 'university-faculty':
+        return <UniversityFaculty {...pageProps} />;
+      case 'university-course':
+        return <UniversityCourse {...pageProps} />;
+      case 'university-level':
+        return <UniversityLevel {...pageProps} />;
+      case 'university-gst':
+        return <UniversityGst {...pageProps} />;
+      case 'library':
+        return <Library {...pageProps} />;
+      case 'past-questions':
+        return <Library {...pageProps} data={{ ...viewData, type: 'past-questions' }} />;
+      case 'planner':
+        return <Planner onBack={() => navigate('home')} />;
+      case 'streak':
+        return <Streak onBack={() => navigate('home')} />;
+      case 'cgpa':
+        return <Cgpa onBack={() => navigate('home')} />;
+      case 'contribute':
+        return <Contribute onBack={() => navigate('home')} />;
+      case 'practice':
+        return (
+          <Dashboard
+            dashboard={dashboard}
+            quizzes={quizzes}
+            onStartQuiz={handleStartQuiz}
+          />
+        );
+      case 'home':
+      default:
+        return (
+          <StudyHub
+            profile={profile}
+            dashboard={dashboard}
+            onNavigate={navigate}
+          />
+        );
+    }
   };
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans antialiased selection:bg-emerald-500 selection:text-slate-950">
-      <Navbar user={profile} onLogout={handleLogout} />
+      <Navbar user={profile} onLogout={handleLogout} onNavigate={navigate} view={view} />
 
-      <main className="mx-auto max-w-6xl px-4 py-6">
+      <main className="mx-auto max-w-7xl px-4 py-6">
         {error && (
           <div className="mb-6 rounded-2xl border border-rose-500/30 bg-rose-500/10 p-4 text-sm font-semibold text-rose-300 flex items-center justify-between">
             <span>{error}</span>

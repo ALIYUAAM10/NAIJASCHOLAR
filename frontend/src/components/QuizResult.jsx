@@ -45,6 +45,48 @@ export default function QuizResult({ result, quiz, questions, onReturnDashboard 
         </div>
       </div>
 
+      {/* Score by topic */}
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/80 p-5">
+          <h3 className="mb-3 text-sm font-bold text-white">Score by subject</h3>
+          <div className="space-y-2">
+            {[...new Set(questions.map((question) => question.topic.split(' · ')[0] || quiz?.subject || 'Practice'))].map((subject) => {
+              const ids = new Set(questions.filter((question) => (question.topic.split(' · ')[0] || quiz?.subject || 'Practice') === subject).map((question) => question.id));
+              const items = review.filter((item) => ids.has(item.questionId));
+              const correct = items.filter((item) => item.isCorrect).length;
+              return (
+                <div key={subject} className="flex items-center justify-between rounded-xl bg-slate-950/60 px-3 py-2 text-xs">
+                  <span className="text-slate-300">{subject}</span>
+                  <span className="font-bold text-white">{correct} / {items.length}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/80 p-5">
+          <h3 className="mb-3 text-sm font-bold text-white">Study next</h3>
+          <div className="space-y-2">
+            {[...new Set(questions.map((question) => question.topic))]
+              .map((topic) => {
+                const ids = new Set(questions.filter((question) => question.topic === topic).map((question) => question.id));
+                const items = review.filter((item) => ids.has(item.questionId));
+                const correct = items.filter((item) => item.isCorrect).length;
+                return { topic, correct, total: items.length };
+              })
+              .filter((item) => item.correct < item.total)
+              .sort((a, b) => a.correct / a.total - b.correct / b.total)
+              .slice(0, 5)
+              .map((item) => (
+                <div key={item.topic} className="flex items-center justify-between rounded-xl bg-rose-500/5 px-3 py-2 text-xs">
+                  <span className="text-slate-300">{item.topic}</span>
+                  <span className="font-bold text-rose-300">{item.correct}/{item.total} correct</span>
+                </div>
+              ))}
+            {!review.some((item) => !item.isCorrect) && <p className="text-xs text-slate-400">Strong work. Keep revising across your syllabus.</p>}
+          </div>
+        </div>
+      </div>
+
       {/* Answer Review Section */}
       <div className="rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-xl space-y-4">
         <h3 className="text-lg font-bold text-white border-b border-slate-800 pb-3">
