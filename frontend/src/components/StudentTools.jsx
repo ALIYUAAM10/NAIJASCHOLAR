@@ -132,6 +132,7 @@ export function Planner({ onBack }) {
         ...current,
         focus: focusOptions.slice(0, current.track === 'jamb' ? 4 : 3).map((option) => ({ ...option, confidence: 3 })),
       }));
+      setMessage('');
     }
   }, [focusOptions, plan]);
 

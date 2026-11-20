@@ -348,9 +348,9 @@ export default function App() {
       case 'university-gst':
         return <UniversityGst {...pageProps} />;
       case 'library':
-        return <Library {...pageProps} />;
+        return <Library key="library" {...pageProps} />;
       case 'past-questions':
-        return <Library {...pageProps} data={{ ...viewData, type: 'past-questions' }} />;
+        return <Library key="past-questions" {...pageProps} data={{ ...viewData, type: 'past-questions' }} />;
       case 'planner':
         return <Planner onBack={() => navigate('home')} />;
       case 'streak':
