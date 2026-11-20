@@ -49,7 +49,7 @@ export default function Profile({ profile, dashboard, onNavigate, onProfileUpdat
     .sort((a, b) => b.averagePercentage - a.averagePercentage)
     .slice(0, 4);
 
-  const displayName = profile?.displayName || profile?.username || 'Student';
+  const displayName = profile?.username || profile?.displayName || 'Student';
   const initials = displayName.charAt(0).toUpperCase();
   const showPhoto = Boolean(profile?.photoURL) && !avatarFailed;
 
