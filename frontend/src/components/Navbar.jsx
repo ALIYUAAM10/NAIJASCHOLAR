@@ -3,6 +3,7 @@ import Logo from './Logo';
 
 const links = [
   { key: 'home', label: 'Dashboard', icon: 'dashboard' },
+  { key: 'profile', label: 'Profile', icon: 'profile' },
   { key: 'explore', label: 'Explore', icon: 'explore' },
   { key: 'jamb', label: 'JAMB', icon: 'jamb' },
   { key: 'university', label: 'University', icon: 'university' },
@@ -32,6 +33,13 @@ function NavIcon({ name }) {
           <rect x="14" y="3" width="7" height="7" rx="2" />
           <rect x="3" y="14" width="7" height="7" rx="2" />
           <rect x="14" y="14" width="7" height="7" rx="2" />
+        </svg>
+      );
+    case 'profile':
+      return (
+        <svg {...common}>
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4.5 20a7.5 7.5 0 0 1 15 0" />
         </svg>
       );
     case 'explore':
@@ -103,13 +111,20 @@ export default function Navbar({ user, onLogout, onNavigate, view }) {
 
           {user && (
             <div className="flex items-center gap-3">
-              <span className="hidden text-right sm:block">
-                <span className="block text-xs font-bold text-slate-800">{user.username}</span>
-                <span className="block text-[10px] text-slate-500">{user.email}</span>
-              </span>
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-violet-500 via-fuchsia-500 to-pink-400 text-xs font-black text-[#fff] shadow-lg shadow-violet-500/25">
-                {initials}
-              </span>
+              <button
+                type="button"
+                onClick={() => onNavigate('profile')}
+                aria-label="Open your profile"
+                className="flex items-center gap-3 rounded-xl text-right transition hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+              >
+                <span className="hidden sm:block">
+                  <span className="block text-xs font-bold text-slate-800">{user.username}</span>
+                  <span className="block text-[10px] text-slate-500">{user.email}</span>
+                </span>
+                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-violet-500 via-fuchsia-500 to-pink-400 text-xs font-black text-[#fff] shadow-lg shadow-violet-500/25">
+                  {initials}
+                </span>
+              </button>
               <button
                 onClick={onLogout}
                 className="glass-button rounded-xl px-3.5 py-1.5 text-xs font-bold text-rose-600 transition hover:text-rose-700"

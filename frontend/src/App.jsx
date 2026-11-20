@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Navbar from './components/Navbar';
 import LandingPage from './components/LandingPage';
 import StudentDashboard from './components/StudentDashboard';
+import Profile from './components/Profile';
 import Dashboard from './components/Dashboard';
 import StudyHub from './components/StudyHub';
 import JambHub, { JambSubject } from './components/JambHub';
@@ -152,6 +153,10 @@ export default function App() {
     setViewData(nextData);
     setError('');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleProfileUpdated = (updatedUser) => {
+    setProfile(updatedUser);
   };
 
   const loadDashboard = async () => {
@@ -368,6 +373,15 @@ export default function App() {
             dashboard={dashboard}
             quizzes={quizzes}
             onStartQuiz={handleStartQuiz}
+          />
+        );
+      case 'profile':
+        return (
+          <Profile
+            profile={profile}
+            dashboard={dashboard}
+            onNavigate={navigate}
+            onProfileUpdated={handleProfileUpdated}
           />
         );
       case 'explore':
