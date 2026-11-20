@@ -5,17 +5,19 @@ export default defineConfig({
     base: '/',
     plugins: [react()],
     server: {
-        port: 3000,
+        port: 5173,
         proxy: {
-            // Forward /api requests to the Express backend in dev mode
+            // Vercel Functions run on :3000 via `npx vercel dev`.
             '/api': {
-                target: 'http://localhost:5000',
+                target: 'http://localhost:3000',
                 changeOrigin: true,
             },
         },
     },
     build: {
-        outDir: '../backend/public',
+        outDir: 'dist',
         emptyOutDir: true,
+        // Chrome 80+ on Android is the minimum supported browser.
+        target: 'es2018',
     },
 });

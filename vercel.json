@@ -1,0 +1,70 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build",
+  "outputDirectory": "frontend/dist",
+  "installCommand": "npm install && npm --prefix frontend ci",
+  "functions": {
+    "api/health.ts": {
+      "maxDuration": 10
+    },
+    "api/me.ts": {
+      "maxDuration": 10
+    },
+    "api/exams/index.ts": {
+      "maxDuration": 10
+    },
+    "api/exams/[examId].ts": {
+      "maxDuration": 10
+    },
+    "api/mock-sessions/index.ts": {
+      "maxDuration": 10
+    },
+    "api/mock-sessions/[sessionId]/submit.ts": {
+      "maxDuration": 10
+    },
+    "api/attempts/index.ts": {
+      "maxDuration": 10
+    },
+    "api/progress/index.ts": {
+      "maxDuration": 10
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
+    }
+  ]
+}

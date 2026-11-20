@@ -3,13 +3,15 @@ import { useEffect, useState } from 'react';
 export function useQuizTimer(durationMinutes) {
     const totalSeconds = Number(durationMinutes) > 0 ? Number(durationMinutes) * 60 : 0;
     const [timeLeft, setTimeLeft] = useState(totalSeconds);
+    const [ready, setReady] = useState(false);
 
     useEffect(() => {
         setTimeLeft(totalSeconds);
+        setReady(totalSeconds > 0);
     }, [totalSeconds]);
 
     useEffect(() => {
-        if (!totalSeconds) {
+        if (!totalSeconds || !ready) {
             return undefined;
         }
 
@@ -25,11 +27,11 @@ export function useQuizTimer(durationMinutes) {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [totalSeconds]);
+    }, [totalSeconds, ready]);
 
     return {
         minutes: Math.floor(timeLeft / 60),
         seconds: timeLeft % 60,
-        isExpired: timeLeft <= 0,
+        isExpired: ready && timeLeft <= 0,
     };
 }

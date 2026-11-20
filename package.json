@@ -1,11 +1,42 @@
 {
-  "name": "NaijaPrep-app",
+  "name": "naijaprep",
   "version": "1.0.0",
-  "description": "NaijaPrep E-Learning Quiz Platform – monorepo root",
+  "private": true,
+  "type": "module",
+  "description": "NaijaPrep - JAMB, WAEC and Post-UTME practice platform",
+  "engines": {
+    "node": ">=20.11.0"
+  },
   "scripts": {
-    "build": "cd backend && npm install && npm run build",
-    "start": "cd backend && node src/index.js",
-    "dev:backend": "cd backend && npm run dev",
-    "dev:frontend": "cd frontend && npm run dev"
+    "dev:web": "npm --prefix frontend run dev",
+    "dev:api": "npx vercel dev",
+    "build": "npm run typecheck && npm run build:web",
+    "build:web": "npm --prefix frontend run build",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --max-warnings=0",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:rules": "firebase emulators:exec --only auth,firestore,storage --project demo-naijaprep \"vitest run --config vitest.rules.config.ts\"",
+    "test:integration": "firebase emulators:exec --only auth,firestore --project demo-naijaprep \"vitest run --config vitest.integration.config.ts\"",
+    "seed": "node --env-file=.env.local --import tsx scripts/seed.ts",
+    "seed:emulator": "FIREBASE_PROJECT_ID=demo-naijaprep FIRESTORE_EMULATOR_HOST=127.0.0.1:8080 FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099 node --import tsx scripts/seed.ts",
+    "emulators": "firebase emulators:start --only auth,firestore,storage --project demo-naijaprep"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.0.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@firebase/rules-unit-testing": "^4.0.1",
+    "@types/node": "^22.10.0",
+    "@vercel/node": "^5.0.0",
+    "eslint": "^9.17.0",
+    "firebase": "^11.0.0",
+    "firebase-tools": "^13.29.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.18.0",
+    "vitest": "^3.0.0"
   }
 }
