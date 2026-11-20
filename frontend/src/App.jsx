@@ -238,13 +238,27 @@ export default function App() {
 
   const handleReturnFromQuiz = () => {
     const origin = quizOrigin.current || { view: 'home', data: {} };
+    const dataViews = [
+      'jamb-subject',
+      'university-faculty',
+      'university-course',
+      'university-level',
+    ];
+    let targetView = origin.view;
+    let targetData = origin.data || {};
+
+    if (dataViews.includes(targetView) && !Object.keys(targetData).length) {
+      targetView = selectedQuiz?.examType === 'University' ? 'university' : 'jamb';
+      targetData = {};
+    }
+
     setSelectedQuiz(null);
     setSessionId('');
     setQuestions([]);
     setAnswers({});
     setResult(null);
-    setView(origin.view);
-    setViewData(origin.data);
+    setView(targetView);
+    setViewData(targetData);
     setError('');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
