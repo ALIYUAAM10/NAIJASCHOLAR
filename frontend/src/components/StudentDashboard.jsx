@@ -6,7 +6,7 @@ const quickActions = [
     icon: '🎯',
     title: 'Continue JAMB',
     description: 'Topic questions and full mocks',
-    tone: 'from-violet-400/25 to-fuchsia-300/15',
+    tone: 'from-indigo-400/25 to-indigo-300/15',
   },
   {
     key: 'university',
@@ -20,7 +20,7 @@ const quickActions = [
     icon: '📝',
     title: 'Past questions',
     description: 'Find and review real exam sets',
-    tone: 'from-amber-300/25 to-rose-300/15',
+    tone: 'from-amber-300/25 to-red-300/15',
   },
   {
     key: 'practice',
@@ -34,14 +34,14 @@ const quickActions = [
     icon: '📅',
     title: 'Study planner',
     description: 'Plan a pace that fits you',
-    tone: 'from-indigo-400/25 to-violet-300/15',
+    tone: 'from-indigo-400/25 to-indigo-300/15',
   },
   {
     key: 'library',
     icon: '📚',
     title: 'Study library',
     description: 'Books, notes and resources',
-    tone: 'from-pink-300/25 to-fuchsia-300/15',
+    tone: 'from-blue-300/25 to-indigo-300/15',
   },
 ];
 
@@ -110,12 +110,12 @@ export default function StudentDashboard({ profile, dashboard, exams, onNavigate
   return (
     <div className="space-y-7 pb-16">
       <section className="glass-hero relative overflow-hidden rounded-[32px] px-6 py-8 sm:px-10 sm:py-10">
-        <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-fuchsia-300/40 blur-3xl" />
+        <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-indigo-300/40 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-28 left-1/3 h-72 w-72 rounded-full bg-cyan-300/35 blur-3xl" />
 
         <div className="relative flex flex-col justify-between gap-6 lg:flex-row lg:items-center">
           <div className="max-w-2xl">
-            <span className="glass-chip inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-violet-700">
+            <span className="glass-chip inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-indigo-700">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               Student dashboard
             </span>
@@ -144,7 +144,7 @@ export default function StudentDashboard({ profile, dashboard, exams, onNavigate
             </button>
             <button
               onClick={() => onNavigate('explore')}
-              className="glass-button rounded-2xl px-5 py-3 text-sm font-bold text-violet-700"
+              className="glass-button rounded-2xl px-5 py-3 text-sm font-bold text-indigo-700"
             >
               Explore all tools
             </button>
@@ -172,7 +172,7 @@ export default function StudentDashboard({ profile, dashboard, exams, onNavigate
               <h2 className="text-lg font-extrabold text-slate-900">Quick actions</h2>
               <p className="mt-1 text-xs text-slate-500">Jump straight into what you need.</p>
             </div>
-            <button onClick={() => onNavigate('explore')} className="text-xs font-bold text-violet-600 hover:underline">
+            <button onClick={() => onNavigate('explore')} className="text-xs font-bold text-indigo-600 hover:underline">
               View all
             </button>
           </div>
@@ -207,11 +207,11 @@ export default function StudentDashboard({ profile, dashboard, exams, onNavigate
                   <div key={entry.key}>
                     <div className="flex items-center justify-between text-xs">
                       <span className="font-bold capitalize text-slate-700">{entry.name}</span>
-                      <span className="font-bold text-violet-600">{percent.toFixed(1)}%</span>
+                      <span className="font-bold text-indigo-600">{percent.toFixed(1)}%</span>
                     </div>
                     <div className="mt-2 h-2 overflow-hidden rounded-full bg-white/70">
                       <div
-                        className="h-full rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500"
+                        className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-indigo-500"
                         style={{ width: `${percent}%` }}
                       />
                     </div>
@@ -220,14 +220,14 @@ export default function StudentDashboard({ profile, dashboard, exams, onNavigate
               })}
             </div>
           ) : (
-            <div className="mt-6 rounded-2xl border border-dashed border-violet-300/70 bg-white/40 p-5 text-center">
+            <div className="mt-6 rounded-2xl border border-dashed border-indigo-300/70 bg-white/40 p-5 text-center">
               <div className="text-2xl">📊</div>
               <p className="mt-2 text-xs leading-relaxed text-slate-600">
                 Your first completed mock will unlock subject-level progress here.
               </p>
               <button
                 onClick={() => onNavigate('practice')}
-                className="mt-3 text-xs font-bold text-violet-600 hover:underline"
+                className="mt-3 text-xs font-bold text-indigo-600 hover:underline"
               >
                 Take your first mock
               </button>
@@ -243,7 +243,7 @@ export default function StudentDashboard({ profile, dashboard, exams, onNavigate
               <h2 className="text-lg font-extrabold text-slate-900">Recent attempts</h2>
               <p className="mt-1 text-xs text-slate-500">A quick look at your latest work.</p>
             </div>
-            <button onClick={() => onNavigate('practice')} className="text-xs font-bold text-violet-600 hover:underline">
+            <button onClick={() => onNavigate('practice')} className="text-xs font-bold text-indigo-600 hover:underline">
               See all
             </button>
           </div>
@@ -261,7 +261,7 @@ export default function StudentDashboard({ profile, dashboard, exams, onNavigate
                   >
                     <div className="min-w-0">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-violet-600">{attempt.subject}</span>
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-600">{attempt.subject}</span>
                         <span className="text-[10px] text-slate-400">•</span>
                         <span className="text-[10px] text-slate-500">{formatDate(attempt.completedAt)}</span>
                       </div>
@@ -269,7 +269,7 @@ export default function StudentDashboard({ profile, dashboard, exams, onNavigate
                     </div>
                     <div className="shrink-0 text-right">
                       <div className="text-sm font-black text-slate-900">{attempt.score}/{attempt.totalQuestions}</div>
-                      <div className={`text-[11px] font-bold ${scorePct >= 50 ? 'text-emerald-600' : 'text-rose-500'}`}>
+                      <div className={`text-[11px] font-bold ${scorePct >= 50 ? 'text-emerald-600' : 'text-red-500'}`}>
                         {scorePct}%
                       </div>
                     </div>
@@ -278,7 +278,7 @@ export default function StudentDashboard({ profile, dashboard, exams, onNavigate
               })}
             </div>
           ) : (
-            <div className="mt-5 rounded-2xl border border-dashed border-violet-300/70 bg-white/40 p-6 text-center">
+            <div className="mt-5 rounded-2xl border border-dashed border-indigo-300/70 bg-white/40 p-6 text-center">
               <div className="text-2xl">✨</div>
               <p className="mt-2 text-xs leading-relaxed text-slate-600">
                 No attempts yet. Your completed mocks will appear here with scores and dates.
@@ -303,7 +303,7 @@ export default function StudentDashboard({ profile, dashboard, exams, onNavigate
                 <div key={exam.id} className="glass-chip rounded-2xl p-4">
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-violet-600">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-600">
                         {exam.examType || exam.subject}
                       </span>
                       <h3 className="mt-1 truncate text-sm font-bold text-slate-900">{exam.title}</h3>
@@ -321,7 +321,7 @@ export default function StudentDashboard({ profile, dashboard, exams, onNavigate
                 </div>
               ))
             ) : (
-              <div className="rounded-2xl border border-dashed border-violet-300/70 bg-white/40 p-5 text-center text-xs text-slate-600">
+              <div className="rounded-2xl border border-dashed border-indigo-300/70 bg-white/40 p-5 text-center text-xs text-slate-600">
                 Practice sets are loading.
               </div>
             )}
@@ -329,7 +329,7 @@ export default function StudentDashboard({ profile, dashboard, exams, onNavigate
 
           <button
             onClick={() => onNavigate('explore')}
-            className="glass-button mt-5 w-full rounded-xl py-2.5 text-xs font-bold text-violet-700"
+            className="glass-button mt-5 w-full rounded-xl py-2.5 text-xs font-bold text-indigo-700"
           >
             Browse everything
           </button>

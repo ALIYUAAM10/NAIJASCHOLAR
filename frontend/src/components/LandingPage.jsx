@@ -8,7 +8,7 @@ const features = [
     tag: 'FRONTEND',
     title: 'JAMB CBT practice',
     description: '15 subjects, grouped topics and timed mock sessions that mirror the real exam flow.',
-    tone: 'from-violet-400/25 to-fuchsia-300/15',
+    tone: 'from-indigo-400/25 to-indigo-300/15',
   },
   {
     icon: '🎓',
@@ -22,7 +22,7 @@ const features = [
     tag: 'CONTENT',
     title: 'Past questions & library',
     description: 'Searchable past questions, textbooks and course resources in one calm study library.',
-    tone: 'from-amber-300/25 to-rose-300/15',
+    tone: 'from-amber-300/25 to-red-300/15',
   },
   {
     icon: '📅',
@@ -36,14 +36,14 @@ const features = [
     tag: 'BACKEND',
     title: 'Server-evaluated scoring',
     description: 'Answers are graded on the server, so every score is consistent, fair and tamper-proof.',
-    tone: 'from-indigo-400/25 to-violet-300/15',
+    tone: 'from-indigo-400/25 to-indigo-300/15',
   },
   {
     icon: '🔐',
     tag: 'BACKEND',
     title: 'Secure Firebase accounts',
     description: 'Google and email sign-in with verified ID tokens. Your data stays private to your account.',
-    tone: 'from-rose-300/25 to-pink-300/15',
+    tone: 'from-red-300/25 to-blue-300/15',
   },
   {
     icon: '📈',
@@ -57,7 +57,7 @@ const features = [
     tag: 'DELIVERY',
     title: 'Fast, global and simple',
     description: 'One lightweight web app with protected APIs, cursor pagination and instant feedback.',
-    tone: 'from-fuchsia-300/25 to-amber-300/15',
+    tone: 'from-indigo-300/25 to-amber-300/15',
   },
 ];
 
@@ -89,14 +89,14 @@ export default function LandingPage({ configError = '' }) {
     <div className="space-y-14 pb-20">
       <header className="sticky top-0 z-40 -mx-4 px-4 pt-3 sm:-mx-6 sm:px-6">
         <div className="glass-card mx-auto flex max-w-6xl items-center justify-between rounded-2xl px-4 py-3 sm:px-5">
-          <button onClick={() => scrollTo('top')} className="rounded-xl text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400">
+          <button onClick={() => scrollTo('top')} className="rounded-xl text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400">
             <Logo size="sm" />
           </button>
 
           <nav className="hidden items-center gap-6 text-xs font-semibold text-slate-600 md:flex" aria-label="Public navigation">
-            <button onClick={() => scrollTo('features')} className="transition hover:text-violet-700">Features</button>
-            <button onClick={() => scrollTo('how-it-works')} className="transition hover:text-violet-700">How it works</button>
-            <button onClick={() => scrollTo('auth')} className="transition hover:text-violet-700">Get started</button>
+            <button onClick={() => scrollTo('features')} className="transition hover:text-indigo-700">Features</button>
+            <button onClick={() => scrollTo('how-it-works')} className="transition hover:text-indigo-700">How it works</button>
+            <button onClick={() => scrollTo('auth')} className="transition hover:text-indigo-700">Get started</button>
           </nav>
 
           <button
@@ -109,19 +109,19 @@ export default function LandingPage({ configError = '' }) {
       </header>
 
       <section id="top" className="glass-hero relative overflow-hidden rounded-[32px] px-6 py-10 sm:px-10 md:px-14 md:py-14">
-        <div className="pointer-events-none absolute -right-24 -top-28 h-80 w-80 rounded-full bg-fuchsia-300/40 blur-3xl" />
+        <div className="pointer-events-none absolute -right-24 -top-28 h-80 w-80 rounded-full bg-indigo-300/40 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-32 -left-20 h-80 w-80 rounded-full bg-cyan-300/40 blur-3xl" />
 
         <div className="relative grid items-center gap-10 lg:grid-cols-[1.08fr_.92fr]">
           <div>
-            <span className="glass-chip inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-violet-700">
+            <span className="glass-chip inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-indigo-700">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               Free for Nigerian students
             </span>
 
             <h1 className="mt-5 text-4xl font-black leading-[1.08] tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
               Ace JAMB, WAEC &
-              <span className="block bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-indigo-600 via-indigo-500 to-blue-500 bg-clip-text text-transparent">
                 university exams.
               </span>
             </h1>
@@ -140,7 +140,7 @@ export default function LandingPage({ configError = '' }) {
               </button>
               <button
                 onClick={() => scrollTo('features')}
-                className="glass-button rounded-2xl px-6 py-3 text-sm font-bold text-violet-700"
+                className="glass-button rounded-2xl px-6 py-3 text-sm font-bold text-indigo-700"
               >
                 Explore features
               </button>
@@ -163,11 +163,11 @@ export default function LandingPage({ configError = '' }) {
           <div className="relative mx-auto w-full max-w-md">
             <div className="glass-card rounded-[28px] p-5 shadow-2xl sm:p-6">
               <div className="flex items-center justify-between">
-                <span className="glass-chip rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-violet-700">
+                <span className="glass-chip rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-indigo-700">
                   Full mock · Live preview
                 </span>
                 <span className="flex items-center gap-1.5 text-xs font-bold text-slate-500">
-                  <span className="h-1.5 w-1.5 rounded-full bg-rose-400" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-red-400" />
                   24:59
                 </span>
               </div>
@@ -183,7 +183,7 @@ export default function LandingPage({ configError = '' }) {
                     key={option}
                     className={`flex items-center justify-between rounded-xl border px-3.5 py-2.5 text-sm ${
                       index === 1
-                        ? 'border-violet-400/60 bg-violet-500/15 font-bold text-violet-800'
+                        ? 'border-indigo-400/60 bg-indigo-500/15 font-bold text-indigo-800'
                         : 'border-white/70 bg-white/50 text-slate-600'
                     }`}
                   >
@@ -195,7 +195,7 @@ export default function LandingPage({ configError = '' }) {
 
               <div className="mt-5 flex items-center gap-3">
                 <div className="h-2 flex-1 overflow-hidden rounded-full bg-white/70">
-                  <div className="h-full w-[38%] rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500" />
+                  <div className="h-full w-[38%] rounded-full bg-gradient-to-r from-indigo-500 to-indigo-500" />
                 </div>
                 <span className="text-[11px] font-bold text-slate-500">38%</span>
               </div>
@@ -226,9 +226,9 @@ export default function LandingPage({ configError = '' }) {
 
       <section id="features" className="scroll-mt-24 space-y-6">
         <div className="text-center">
-          <span className="text-xs font-bold uppercase tracking-[0.2em] text-violet-600">Everything in one place</span>
+          <span className="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600">Everything in one place</span>
           <h2 className="mt-2 text-2xl font-black tracking-tight text-slate-900 sm:text-4xl">
-            The frontend <span className="text-violet-600">and</span> the backend, working for you
+            The frontend <span className="text-indigo-600">and</span> the backend, working for you
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-sm text-slate-600 sm:text-base">
             Before you sign in you can see exactly what is waiting. After you sign in, every feature
@@ -257,14 +257,14 @@ export default function LandingPage({ configError = '' }) {
 
       <section id="how-it-works" className="scroll-mt-24 space-y-6">
         <div className="text-center">
-          <span className="text-xs font-bold uppercase tracking-[0.2em] text-violet-600">Simple by design</span>
+          <span className="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600">Simple by design</span>
           <h2 className="mt-2 text-2xl font-black tracking-tight text-slate-900 sm:text-3xl">How it works</h2>
         </div>
 
         <div className="grid gap-4 md:grid-cols-3">
           {steps.map((step) => (
             <div key={step.number} className="glass-card rounded-3xl p-6">
-              <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-tr from-violet-500 to-fuchsia-400 text-sm font-black text-[#fff]">
+              <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-tr from-indigo-500 to-indigo-400 text-sm font-black text-[#fff]">
                 {step.number}
               </span>
               <h3 className="mt-4 text-base font-extrabold text-slate-900">{step.title}</h3>
@@ -277,7 +277,7 @@ export default function LandingPage({ configError = '' }) {
       <section id="auth" className="glass-hero scroll-mt-24 rounded-[32px] px-4 py-10 sm:px-8">
         <div className="mx-auto max-w-xl">
           <div className="mb-6 text-center">
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-violet-600">Your dashboard awaits</span>
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600">Your dashboard awaits</span>
             <h2 className="mt-2 text-2xl font-black tracking-tight text-slate-900 sm:text-3xl">Come in and start practising</h2>
             <p className="mt-2 text-sm text-slate-600">Create a free account or sign in to open your student dashboard.</p>
           </div>

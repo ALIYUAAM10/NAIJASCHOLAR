@@ -36,8 +36,8 @@ export class ErrorBoundary extends React.Component {
     if (this.state.hasError) {
       return (
         <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-4">
-          <div className="max-w-md w-full rounded-3xl border border-rose-500/30 bg-slate-900/90 p-6 md:p-8 shadow-2xl backdrop-blur-xl text-center">
-            <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-500/10 text-rose-400 font-bold text-2xl mb-4 border border-rose-500/20">
+          <div className="max-w-md w-full rounded-3xl border border-red-500/30 bg-slate-900/90 p-6 md:p-8 shadow-2xl backdrop-blur-xl text-center">
+            <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-red-500/10 text-red-400 font-bold text-2xl mb-4 border border-red-500/20">
               ⚠️
             </div>
             <h2 className="text-xl font-bold text-white mb-2">Something went wrong</h2>
@@ -45,7 +45,7 @@ export class ErrorBoundary extends React.Component {
               An unexpected error occurred while running the application.
             </p>
             {this.state.error?.message && (
-              <div className="mb-6 rounded-xl border border-slate-800 bg-slate-950 p-3 text-left text-xs font-mono text-rose-300 overflow-x-auto">
+              <div className="mb-6 rounded-xl border border-slate-800 bg-slate-950 p-3 text-left text-xs font-mono text-red-300 overflow-x-auto">
                 {this.state.error.message}
               </div>
             )}

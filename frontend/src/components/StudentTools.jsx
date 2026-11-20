@@ -464,12 +464,12 @@ export function Cgpa({ onBack }) {
               <span className="font-bold text-white">{course.code}</span>
               <span className="text-slate-400">{course.units} units</span>
               <span className="rounded-md bg-emerald-500/10 px-2 py-1 text-xs font-bold text-emerald-400">{course.grade}</span>
-              <button onClick={() => persist(courses.filter((item) => item.id !== course.id))} className="text-xs text-rose-400 hover:text-rose-300">Remove</button>
+              <button onClick={() => persist(courses.filter((item) => item.id !== course.id))} className="text-xs text-red-400 hover:text-red-300">Remove</button>
             </div>
           )) : <p className="text-sm text-slate-500">No courses added yet.</p>}
         </div>
         {courses.length > 0 && (
-          <button onClick={() => persist([])} className="mt-4 text-xs font-semibold text-slate-400 hover:text-rose-400">Clear all courses</button>
+          <button onClick={() => persist([])} className="mt-4 text-xs font-semibold text-slate-400 hover:text-red-400">Clear all courses</button>
         )}
         <p className="mt-6 text-xs text-slate-500">This is an estimate. Confirm your official CGPA with your department.</p>
       </section>

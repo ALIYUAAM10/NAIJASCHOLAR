@@ -75,7 +75,7 @@ export default function Library({ data, onNavigate }) {
       </div>
 
       {loading && <div className="py-16 text-center text-slate-400">Loading resources…</div>}
-      {error && <div className="py-16 text-center text-rose-400">{error}</div>}
+      {error && <div className="py-16 text-center text-red-400">{error}</div>}
 
       {!loading && !error && (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

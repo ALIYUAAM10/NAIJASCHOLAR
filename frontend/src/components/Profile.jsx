@@ -220,7 +220,7 @@ export default function Profile({ profile, dashboard, onNavigate, onProfileUpdat
               </div>
             )}
             {error && (
-              <div className="radius-sm border border-rose-300/70 bg-rose-50/80 px-4 py-3 text-xs font-semibold text-rose-700">
+              <div className="radius-sm border border-red-300/70 bg-red-50/80 px-4 py-3 text-xs font-semibold text-red-700">
                 {error}
               </div>
             )}
@@ -253,7 +253,7 @@ export default function Profile({ profile, dashboard, onNavigate, onProfileUpdat
                     </div>
                     <div className="radius-xs mt-2 h-2 overflow-hidden bg-white/70">
                       <div
-                        className="radius-xs h-full bg-gradient-to-r from-indigo-500 to-fuchsia-500"
+                        className="radius-xs h-full bg-gradient-to-r from-indigo-500 to-indigo-500"
                         style={{ width: `${percent}%` }}
                       />
                     </div>

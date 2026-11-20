@@ -159,7 +159,7 @@ export default function Dashboard({ dashboard, quizzes, onStartQuiz }) {
                       <div className="text-sm font-bold text-white">
                         {attempt.score} / {attempt.totalQuestions}
                       </div>
-                      <div className={`text-xs font-semibold ${scorePct >= 50 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                      <div className={`text-xs font-semibold ${scorePct >= 50 ? 'text-emerald-400' : 'text-red-400'}`}>
                         {scorePct}% Score
                       </div>
                     </div>

@@ -407,7 +407,7 @@ export default function App() {
   };
 
   return (
-    <div className="app-shell theme-glass min-h-screen font-sans antialiased selection:bg-violet-300 selection:text-slate-900">
+    <div className="app-shell theme-glass min-h-screen font-sans antialiased selection:bg-indigo-300 selection:text-slate-900">
       <div className="glass-orb glass-orb-one" aria-hidden="true" />
       <div className="glass-orb glass-orb-two" aria-hidden="true" />
       <div className="glass-orb glass-orb-three" aria-hidden="true" />
@@ -418,9 +418,9 @@ export default function App() {
 
       <main className="relative z-10 mx-auto max-w-7xl px-4 py-6 sm:px-6">
         {error && (
-          <div className="glass-card mb-6 flex items-center justify-between rounded-2xl border-rose-300/70 bg-rose-50/70 p-4 text-sm font-semibold text-rose-700">
+          <div className="glass-card mb-6 flex items-center justify-between rounded-2xl border-red-300/70 bg-red-50/70 p-4 text-sm font-semibold text-red-700">
             <span>{error}</span>
-            <button onClick={() => setError('')} className="text-xs underline hover:text-rose-900">
+            <button onClick={() => setError('')} className="text-xs underline hover:text-red-900">
               Dismiss
             </button>
           </div>

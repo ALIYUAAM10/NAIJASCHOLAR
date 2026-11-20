@@ -1,9 +1,9 @@
 import React, { useId } from 'react';
 
 const markSizes = {
-  sm: 'h-9 w-9 rounded-xl',
-  md: 'h-11 w-11 rounded-2xl',
-  lg: 'h-16 w-16 rounded-[20px]',
+  sm: 'h-9 w-9 rounded-[var(--radius-xs)]',
+  md: 'h-11 w-11 rounded-[var(--radius-sm)]',
+  lg: 'h-16 w-16 rounded-[var(--radius-md)]',
 };
 
 export default function Logo({
@@ -22,16 +22,16 @@ export default function Logo({
         <svg viewBox="0 0 64 64" className="h-full w-full" role="img" aria-label="Naija Scholar">
           <defs>
             <linearGradient id={`${id}-bg`} x1="8" y1="6" x2="56" y2="58" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#8B7CFF" />
-              <stop offset="0.52" stopColor="#B45CF7" />
-              <stop offset="1" stopColor="#F472B6" />
+              <stop stopColor="#4F46E5" />
+              <stop offset="0.52" stopColor="#6366F1" />
+              <stop offset="1" stopColor="#3B82F6" />
             </linearGradient>
             <linearGradient id={`${id}-book`} x1="16" y1="38" x2="48" y2="54" gradientUnits="userSpaceOnUse">
               <stop stopColor="#FFFFFF" stopOpacity="0.98" />
               <stop offset="1" stopColor="#FFFFFF" stopOpacity="0.7" />
             </linearGradient>
             <filter id={`${id}-shadow`} x="-25%" y="-25%" width="150%" height="150%">
-              <feDropShadow dx="0" dy="6" stdDeviation="6" floodColor="#6D28D9" floodOpacity="0.28" />
+              <feDropShadow dx="0" dy="6" stdDeviation="6" floodColor="#312E81" floodOpacity="0.28" />
             </filter>
           </defs>
 
@@ -67,10 +67,10 @@ export default function Logo({
             fill={`url(#${id}-book)`}
             opacity="0.88"
           />
-          <path d="M32 41.3v11.2" stroke="#7C3AED" strokeWidth="1.8" opacity="0.75" />
+          <path d="M32 41.3v11.2" stroke="#4F46E5" strokeWidth="1.8" opacity="0.75" />
           <path
             d="M18 44.5c3.2-.9 6.4-.6 9.4.9M46 44.5c-3.2-.9-6.4-.6-9.4.9"
-            stroke="#A855F7"
+            stroke="#6366F1"
             strokeWidth="1.4"
             strokeLinecap="round"
             opacity="0.55"
@@ -86,7 +86,7 @@ export default function Logo({
             Naija Scholar
           </span>
           {showTagline && (
-            <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-violet-600">
+            <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-indigo-600">
               JAMB • WAEC • University
             </span>
           )}

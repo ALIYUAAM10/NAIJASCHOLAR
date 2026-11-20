@@ -105,7 +105,7 @@ export default function Navbar({ user, onLogout, onNavigate, view }) {
     <header className="sticky top-0 z-50 -mx-4 px-4 pt-3 sm:-mx-6 sm:px-6">
       <div className="mx-auto max-w-7xl space-y-2">
         <div className="glass-card flex items-center justify-between gap-4 rounded-2xl px-4 py-3">
-          <button onClick={() => onNavigate('home')} className="rounded-xl text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400">
+          <button onClick={() => onNavigate('home')} className="rounded-xl text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400">
             <Logo size="md" />
           </button>
 
@@ -115,19 +115,19 @@ export default function Navbar({ user, onLogout, onNavigate, view }) {
                 type="button"
                 onClick={() => onNavigate('profile')}
                 aria-label="Open your profile"
-                className="flex items-center gap-3 rounded-xl text-right transition hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+                className="flex items-center gap-3 rounded-xl text-right transition hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
               >
                 <span className="hidden sm:block">
                   <span className="block text-xs font-bold text-slate-800">{user.username}</span>
                   <span className="block text-[10px] text-slate-500">{user.email}</span>
                 </span>
-                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-violet-500 via-fuchsia-500 to-pink-400 text-xs font-black text-[#fff] shadow-lg shadow-violet-500/25">
+                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-500 via-indigo-500 to-blue-400 text-xs font-black text-[#fff] shadow-lg shadow-indigo-500/25">
                   {initials}
                 </span>
               </button>
               <button
                 onClick={onLogout}
-                className="glass-button rounded-xl px-3.5 py-1.5 text-xs font-bold text-rose-600 transition hover:text-rose-700"
+                className="glass-button rounded-xl px-3.5 py-1.5 text-xs font-bold text-red-600 transition hover:text-red-700"
               >
                 Sign out
               </button>
@@ -136,8 +136,8 @@ export default function Navbar({ user, onLogout, onNavigate, view }) {
         </div>
 
         <nav className="glass-toolbar flex items-center gap-1 overflow-x-auto rounded-2xl p-1.5" aria-label="Dashboard tools">
-          <span className="toolbar-kicker hidden shrink-0 items-center gap-2 px-2 text-[10px] font-black uppercase tracking-[0.16em] text-violet-600 lg:flex">
-            <span className="h-2 w-2 rounded-full bg-violet-500 shadow-[0_0_10px_rgba(139,92,246,0.8)]" />
+          <span className="toolbar-kicker hidden shrink-0 items-center gap-2 px-2 text-[10px] font-black uppercase tracking-[0.16em] text-indigo-600 lg:flex">
+            <span className="h-2 w-2 rounded-full bg-indigo-500 shadow-[0_0_10px_rgba(139,92,246,0.8)]" />
             Tools
           </span>
           <span className="mx-1 hidden h-6 w-px shrink-0 bg-white/70 lg:block" />

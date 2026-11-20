@@ -20,7 +20,7 @@ export default function JambHub({ data, exams, onNavigate, onStartExam }) {
   const { data: jambData, loading, error } = useJsonData('/data/jamb.json');
 
   if (loading) return <div className="py-20 text-center text-slate-400">Loading JAMB subjects…</div>;
-  if (error || !jambData) return <div className="py-20 text-center text-rose-400">{error || 'Content unavailable.'}</div>;
+  if (error || !jambData) return <div className="py-20 text-center text-red-400">{error || 'Content unavailable.'}</div>;
 
   const subjects = jambData.subjects || [];
   const mockExam = exams.find((exam) => exam.id === 'jamb-full-mock');
@@ -72,10 +72,10 @@ export function JambSubject({ data, exams, onNavigate, onStartExam }) {
   const { data: jambData, loading, error } = useJsonData('/data/jamb.json');
 
   if (loading) return <div className="py-20 text-center text-slate-400">Loading subject…</div>;
-  if (error || !jambData) return <div className="py-20 text-center text-rose-400">{error || 'Content unavailable.'}</div>;
+  if (error || !jambData) return <div className="py-20 text-center text-red-400">{error || 'Content unavailable.'}</div>;
 
   const subject = (jambData.subjects || []).find((item) => item.slug === slug);
-  if (!subject) return <div className="py-20 text-center text-rose-400">Subject not found.</div>;
+  if (!subject) return <div className="py-20 text-center text-red-400">Subject not found.</div>;
 
   const wholeExam = exams.find((exam) => exam.id === `jamb-${slug}`);
   const findTopicExam = (topic) => exams.find((exam) => exam.id === `jamb-${slug}-${slugify(topic)}`);

@@ -107,7 +107,7 @@ export default function AuthScreen({ configError = '', embedded = false }) {
             type="button"
             className={`flex-1 rounded-xl py-2.5 text-sm font-semibold transition-all duration-200 ${
               mode === 'login'
-                ? 'bg-gradient-to-r from-violet-500 to-fuchsia-500 text-[#fff] shadow-md shadow-violet-500/25 font-bold'
+                ? 'bg-gradient-to-r from-indigo-500 to-indigo-500 text-[#fff] shadow-md shadow-indigo-500/25 font-bold'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
             onClick={() => { setMode('login'); setError(''); }}
@@ -118,7 +118,7 @@ export default function AuthScreen({ configError = '', embedded = false }) {
             type="button"
             className={`flex-1 rounded-xl py-2.5 text-sm font-semibold transition-all duration-200 ${
               mode === 'register'
-                ? 'bg-gradient-to-r from-violet-500 to-fuchsia-500 text-[#fff] shadow-md shadow-violet-500/25 font-bold'
+                ? 'bg-gradient-to-r from-indigo-500 to-indigo-500 text-[#fff] shadow-md shadow-indigo-500/25 font-bold'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
             onClick={() => { setMode('register'); setError(''); }}
@@ -128,7 +128,7 @@ export default function AuthScreen({ configError = '', embedded = false }) {
         </div>
 
         {error && (
-          <div className="mb-4 rounded-xl border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-xs font-medium text-rose-300">
+          <div className="mb-4 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-xs font-medium text-red-300">
             {error}
           </div>
         )}

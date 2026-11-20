@@ -29,7 +29,7 @@ export default function UniversityHub({ data, exams, onNavigate, onStartExam }) 
   const [query, setQuery] = useState('');
 
   if (loading) return <div className="py-20 text-center text-slate-400">Loading university courses…</div>;
-  if (error || !units) return <div className="py-20 text-center text-rose-400">{error || 'Content unavailable.'}</div>;
+  if (error || !units) return <div className="py-20 text-center text-red-400">{error || 'Content unavailable.'}</div>;
 
   const allCourses = faculties.flatMap((faculty) =>
     faculty.courses.map((course) => ({ name: course, faculty: faculty.name })),
@@ -138,9 +138,9 @@ export default function UniversityHub({ data, exams, onNavigate, onStartExam }) 
 export function UniversityFaculty({ data, onNavigate }) {
   const { faculties, loading, error } = useContent();
   if (loading) return <div className="py-20 text-center text-slate-400">Loading faculty…</div>;
-  if (error) return <div className="py-20 text-center text-rose-400">{error}</div>;
+  if (error) return <div className="py-20 text-center text-red-400">{error}</div>;
   const faculty = faculties[Number(data?.index)];
-  if (!faculty) return <div className="py-20 text-center text-rose-400">Faculty not found.</div>;
+  if (!faculty) return <div className="py-20 text-center text-red-400">Faculty not found.</div>;
 
   return (
     <div className="space-y-6 pb-16">
@@ -204,7 +204,7 @@ function UnitRow({ unit, exam, onStartExam }) {
 export function UniversityLevel({ data, exams, onNavigate, onStartExam }) {
   const { units, loading, error } = useContent();
   if (loading) return <div className="py-20 text-center text-slate-400">Loading course units…</div>;
-  if (error || !units) return <div className="py-20 text-center text-rose-400">{error || 'Content unavailable.'}</div>;
+  if (error || !units) return <div className="py-20 text-center text-red-400">{error || 'Content unavailable.'}</div>;
 
   const course = units.courses.find((item) => item.name === data?.course);
   const levelUnits = course?.levels?.[String(data?.level)] || [];
@@ -237,7 +237,7 @@ export function UniversityLevel({ data, exams, onNavigate, onStartExam }) {
 export function UniversityGst({ exams, onNavigate, onStartExam }) {
   const { units, loading, error } = useContent();
   if (loading) return <div className="py-20 text-center text-slate-400">Loading GST units…</div>;
-  if (error || !units) return <div className="py-20 text-center text-rose-400">{error || 'Content unavailable.'}</div>;
+  if (error || !units) return <div className="py-20 text-center text-red-400">{error || 'Content unavailable.'}</div>;
   const examFor = (unit) => exams.find((exam) => exam.id === `course-${slugify(unit.code)}`);
 
   return (
