@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Navbar from './components/Navbar';
-import AuthScreen from './components/AuthScreen';
+import LandingPage from './components/LandingPage';
+import StudentDashboard from './components/StudentDashboard';
 import Dashboard from './components/Dashboard';
 import StudyHub from './components/StudyHub';
 import JambHub, { JambSubject } from './components/JambHub';
@@ -106,6 +107,7 @@ export default function App() {
         setDashboard({
           stats: me.user.stats,
           recentAttempts: me.user.recentAttempts,
+          progress: me.user.progress,
         });
         setExams(examData.items || []);
         setQuizzes(groupBySubject(examData.items || []));
@@ -158,6 +160,7 @@ export default function App() {
     setDashboard({
       stats: me.user.stats,
       recentAttempts: me.user.recentAttempts,
+      progress: me.user.progress,
     });
   };
 
@@ -269,7 +272,7 @@ export default function App() {
     }
 
     if (!firebaseUser) {
-      return <AuthScreen configError={firebaseConfigError} />;
+      return <LandingPage configError={firebaseConfigError} />;
     }
 
     if (profileLoading && !profile) {
@@ -367,8 +370,7 @@ export default function App() {
             onStartQuiz={handleStartQuiz}
           />
         );
-      case 'home':
-      default:
+      case 'explore':
         return (
           <StudyHub
             profile={profile}
@@ -376,18 +378,35 @@ export default function App() {
             onNavigate={navigate}
           />
         );
+      case 'home':
+      default:
+        return (
+          <StudentDashboard
+            profile={profile}
+            dashboard={dashboard}
+            exams={exams}
+            onNavigate={navigate}
+            onStartExam={handleStartQuiz}
+          />
+        );
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans antialiased selection:bg-emerald-500 selection:text-slate-950">
-      <Navbar user={profile} onLogout={handleLogout} onNavigate={navigate} view={view} />
+    <div className="app-shell theme-glass min-h-screen font-sans antialiased selection:bg-violet-300 selection:text-slate-900">
+      <div className="glass-orb glass-orb-one" aria-hidden="true" />
+      <div className="glass-orb glass-orb-two" aria-hidden="true" />
+      <div className="glass-orb glass-orb-three" aria-hidden="true" />
 
-      <main className="mx-auto max-w-7xl px-4 py-6">
+      {firebaseUser && profile && (
+        <Navbar user={profile} onLogout={handleLogout} onNavigate={navigate} view={view} />
+      )}
+
+      <main className="relative z-10 mx-auto max-w-7xl px-4 py-6 sm:px-6">
         {error && (
-          <div className="mb-6 rounded-2xl border border-rose-500/30 bg-rose-500/10 p-4 text-sm font-semibold text-rose-300 flex items-center justify-between">
+          <div className="glass-card mb-6 flex items-center justify-between rounded-2xl border-rose-300/70 bg-rose-50/70 p-4 text-sm font-semibold text-rose-700">
             <span>{error}</span>
-            <button onClick={() => setError('')} className="text-xs underline hover:text-white">
+            <button onClick={() => setError('')} className="text-xs underline hover:text-rose-900">
               Dismiss
             </button>
           </div>

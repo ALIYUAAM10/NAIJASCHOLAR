@@ -1,7 +1,8 @@
 import React from 'react';
 
 const links = [
-  { key: 'home', label: 'Home' },
+  { key: 'home', label: 'Dashboard' },
+  { key: 'explore', label: 'Explore' },
   { key: 'jamb', label: 'JAMB' },
   { key: 'university', label: 'University' },
   { key: 'past-questions', label: 'Past Questions' },
@@ -12,26 +13,30 @@ const links = [
 
 export default function Navbar({ user, onLogout, onNavigate, view }) {
   return (
-    <header className="border-b border-slate-800 bg-slate-900/90 backdrop-blur-md sticky top-0 z-50">
-      <div className="mx-auto max-w-7xl px-4 py-3">
+    <header className="glass-card sticky top-0 z-50 -mx-4 rounded-b-3xl px-4 py-3 sm:-mx-6 sm:px-6">
+      <div className="mx-auto max-w-7xl">
         <div className="flex items-center justify-between gap-4">
           <button onClick={() => onNavigate('home')} className="flex items-center gap-3 text-left">
-            <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center font-black text-slate-950 text-xl shadow-lg shadow-emerald-500/20">N</div>
-            <div>
-              <h1 className="text-lg font-bold text-white leading-tight">Naija Scholar</h1>
-              <p className="text-xs text-emerald-400 font-medium">JAMB • WAEC • University</p>
-            </div>
+            <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-tr from-violet-500 via-fuchsia-500 to-pink-400 text-lg font-black text-[#fff] shadow-lg shadow-violet-500/25">
+              NS
+            </span>
+            <span>
+              <span className="block text-base font-extrabold leading-tight tracking-tight text-slate-900">Naija Scholar</span>
+              <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-violet-600">
+                JAMB • WAEC • University
+              </span>
+            </span>
           </button>
 
           {user && (
-            <div className="flex items-center gap-4">
-              <div className="hidden lg:flex flex-col text-right">
-                <span className="text-sm font-semibold text-slate-200">{user.username}</span>
-                <span className="text-xs text-slate-400">{user.email}</span>
+            <div className="flex items-center gap-3">
+              <div className="hidden text-right lg:block">
+                <div className="text-xs font-bold text-slate-800">{user.username}</div>
+                <div className="text-[10px] text-slate-500">{user.email}</div>
               </div>
               <button
                 onClick={onLogout}
-                className="rounded-xl border border-slate-700 bg-slate-800/80 px-3.5 py-1.5 text-xs font-semibold text-slate-300 hover:bg-rose-500/10 hover:border-rose-500/30 hover:text-rose-400 transition-all duration-200"
+                className="glass-button rounded-xl px-3.5 py-1.5 text-xs font-bold text-rose-600 transition hover:text-rose-700"
               >
                 Sign out
               </button>
@@ -44,7 +49,11 @@ export default function Navbar({ user, onLogout, onNavigate, view }) {
             <button
               key={link.key}
               onClick={() => onNavigate(link.key)}
-              className={`shrink-0 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${view === link.key ? 'bg-emerald-500 text-slate-950' : 'bg-slate-800/70 text-slate-300 hover:bg-slate-700'}`}
+              className={`shrink-0 rounded-xl px-3 py-1.5 text-xs font-bold transition ${
+                view === link.key
+                  ? 'glass-button-primary text-[#fff]'
+                  : 'glass-chip text-slate-600 hover:text-violet-700'
+              }`}
             >
               {link.label}
             </button>

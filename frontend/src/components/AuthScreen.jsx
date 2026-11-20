@@ -7,7 +7,7 @@ import {
   registerWithEmail,
 } from '../services/firebase';
 
-export default function AuthScreen({ configError = '' }) {
+export default function AuthScreen({ configError = '', embedded = false }) {
   const [mode, setMode] = useState('login');
   const [form, setForm] = useState({ username: '', email: '', password: '' });
   const [error, setError] = useState('');
@@ -60,13 +60,15 @@ export default function AuthScreen({ configError = '' }) {
   const disabled = loading || Boolean(configError);
 
   return (
-    <div className="min-h-[85vh] flex items-center justify-center px-4 py-8">
-      <div className="w-full max-w-md rounded-3xl border border-slate-800 bg-slate-900/80 p-6 md:p-8 shadow-2xl backdrop-blur-xl">
+    <div className={embedded ? 'w-full' : 'min-h-[85vh] flex items-center justify-center px-4 py-8'}>
+      <div className="glass-card w-full max-w-md rounded-3xl p-6 md:p-8 shadow-2xl">
         <div className="text-center mb-8">
-          <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 font-black text-slate-950 text-2xl shadow-xl shadow-emerald-500/20 mb-4">
+          <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-tr from-violet-500 via-fuchsia-500 to-pink-400 font-black text-[#fff] text-2xl shadow-xl shadow-violet-500/25 mb-4">
             NP
           </div>
-          <h2 className="text-2xl font-black text-white tracking-tight">Welcome to NaijaPrep</h2>
+          <h2 className="text-2xl font-black tracking-tight text-slate-900">
+            {embedded ? 'Sign in to continue' : 'Welcome to NaijaPrep'}
+          </h2>
           <p className="mt-2 text-sm text-slate-400">
             Access JAMB, WAEC & Post-UTME timed practice quizzes anytime, anywhere.
           </p>
@@ -82,7 +84,7 @@ export default function AuthScreen({ configError = '' }) {
           type="button"
           onClick={handleGoogle}
           disabled={disabled}
-          className="mb-5 flex w-full items-center justify-center gap-3 rounded-xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm font-semibold text-slate-200 transition hover:border-slate-600 hover:bg-slate-950 disabled:opacity-50"
+          className="glass-button mb-5 flex w-full items-center justify-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition disabled:opacity-50"
         >
           <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5">
             <path fill="#4285F4" d="M21.6 12.23c0-.71-.06-1.4-.18-2.06H12v3.9h5.38a4.6 4.6 0 0 1-2 3.02v2.52h3.24c1.9-1.75 2.98-4.33 2.98-7.38Z" />
@@ -99,12 +101,12 @@ export default function AuthScreen({ configError = '' }) {
           <span className="h-px flex-1 bg-slate-800" />
         </div>
 
-        <div className="mb-6 flex rounded-2xl bg-slate-950/70 p-1 border border-slate-800">
+        <div className="glass-chip mb-6 flex rounded-2xl p-1">
           <button
             type="button"
             className={`flex-1 rounded-xl py-2.5 text-sm font-semibold transition-all duration-200 ${
               mode === 'login'
-                ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 shadow-md shadow-emerald-500/20 font-bold'
+                ? 'bg-gradient-to-r from-violet-500 to-fuchsia-500 text-[#fff] shadow-md shadow-violet-500/25 font-bold'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
             onClick={() => { setMode('login'); setError(''); }}
@@ -115,7 +117,7 @@ export default function AuthScreen({ configError = '' }) {
             type="button"
             className={`flex-1 rounded-xl py-2.5 text-sm font-semibold transition-all duration-200 ${
               mode === 'register'
-                ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 shadow-md shadow-emerald-500/20 font-bold'
+                ? 'bg-gradient-to-r from-violet-500 to-fuchsia-500 text-[#fff] shadow-md shadow-violet-500/25 font-bold'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
             onClick={() => { setMode('register'); setError(''); }}
@@ -141,7 +143,7 @@ export default function AuthScreen({ configError = '' }) {
                 minLength={3}
                 maxLength={30}
                 autoComplete="nickname"
-                className="w-full rounded-xl border border-slate-700/80 bg-slate-950/80 px-4 py-3 text-sm text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition"
+                className="glass-input w-full rounded-xl px-4 py-3 text-sm transition"
                 placeholder="e.g. Adebayo123"
                 value={form.username}
                 onChange={(e) => setForm({ ...form, username: e.target.value })}
@@ -157,7 +159,7 @@ export default function AuthScreen({ configError = '' }) {
               required
               type="email"
               autoComplete="email"
-              className="w-full rounded-xl border border-slate-700/80 bg-slate-950/80 px-4 py-3 text-sm text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition"
+              className="glass-input w-full rounded-xl px-4 py-3 text-sm transition"
               placeholder="student@example.com"
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -174,7 +176,7 @@ export default function AuthScreen({ configError = '' }) {
                 minLength={6}
                 type={showPassword ? 'text' : 'password'}
                 autoComplete={mode === 'register' ? 'new-password' : 'current-password'}
-                className="w-full rounded-xl border border-slate-700/80 bg-slate-950/80 px-4 py-3 pr-12 text-sm text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition"
+                className="glass-input w-full rounded-xl px-4 py-3 pr-12 text-sm transition"
                 placeholder="••••••••"
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
@@ -204,7 +206,7 @@ export default function AuthScreen({ configError = '' }) {
           <button
             type="submit"
             disabled={disabled}
-            className="w-full mt-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 py-3.5 text-sm font-bold text-slate-950 shadow-lg shadow-emerald-500/25 hover:from-emerald-400 hover:to-teal-300 active:scale-[0.99] transition duration-200 disabled:opacity-50"
+            className="glass-button-primary mt-2 w-full rounded-xl py-3.5 text-sm font-bold text-[#fff] active:scale-[0.99] transition duration-200 disabled:opacity-50"
           >
             {loading ? 'Processing...' : mode === 'login' ? 'Sign In to Practice' : 'Register Now'}
           </button>
