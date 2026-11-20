@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Logo from './Logo';
 import { api } from '../services/api';
 import {
   friendlyAuthError,
@@ -63,8 +64,8 @@ export default function AuthScreen({ configError = '', embedded = false }) {
     <div className={embedded ? 'w-full' : 'min-h-[85vh] flex items-center justify-center px-4 py-8'}>
       <div className="glass-card w-full max-w-md rounded-3xl p-6 md:p-8 shadow-2xl">
         <div className="text-center mb-8">
-          <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-tr from-violet-500 via-fuchsia-500 to-pink-400 font-black text-[#fff] text-2xl shadow-xl shadow-violet-500/25 mb-4">
-            NP
+          <div className="mb-4 flex justify-center">
+            <Logo size="lg" markOnly />
           </div>
           <h2 className="text-2xl font-black tracking-tight text-slate-900">
             {embedded ? 'Sign in to continue' : 'Welcome to NaijaPrep'}

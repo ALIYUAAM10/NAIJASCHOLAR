@@ -1,5 +1,6 @@
 import React from 'react';
 import AuthScreen from './AuthScreen';
+import Logo from './Logo';
 
 const features = [
   {
@@ -88,14 +89,8 @@ export default function LandingPage({ configError = '' }) {
     <div className="space-y-14 pb-20">
       <header className="sticky top-0 z-40 -mx-4 px-4 pt-3 sm:-mx-6 sm:px-6">
         <div className="glass-card mx-auto flex max-w-6xl items-center justify-between rounded-2xl px-4 py-3 sm:px-5">
-          <button onClick={() => scrollTo('top')} className="flex items-center gap-3 text-left">
-            <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-tr from-violet-500 via-fuchsia-500 to-pink-400 text-base font-black text-[#fff] shadow-lg shadow-violet-500/25">
-              NS
-            </span>
-            <span>
-              <span className="block text-sm font-extrabold tracking-tight text-slate-900 sm:text-base">Naija Scholar</span>
-              <span className="block text-[10px] font-semibold uppercase tracking-[0.16em] text-violet-600">JAMB • WAEC • University</span>
-            </span>
+          <button onClick={() => scrollTo('top')} className="rounded-xl text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400">
+            <Logo size="sm" />
           </button>
 
           <nav className="hidden items-center gap-6 text-xs font-semibold text-slate-600 md:flex" aria-label="Public navigation">
@@ -292,8 +287,8 @@ export default function LandingPage({ configError = '' }) {
 
       <footer className="glass-card flex flex-col items-center justify-between gap-3 rounded-3xl px-6 py-5 text-center sm:flex-row sm:text-left">
         <div>
-          <div className="text-sm font-extrabold text-slate-900">Naija Scholar</div>
-          <div className="text-xs text-slate-500">Free exam prep for Nigerian students.</div>
+          <Logo size="sm" showTagline={false} />
+          <div className="mt-2 text-xs text-slate-500">Free exam prep for Nigerian students.</div>
         </div>
         <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
           Built with React • Firebase • Vercel
