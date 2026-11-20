@@ -9,6 +9,11 @@ function headerValue(
   return Array.isArray(value) ? value[0] : value;
 }
 
+function isLocalDevelopmentOrigin(origin: string): boolean {
+  if (process.env.NODE_ENV === 'production') return false;
+  return /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
+}
+
 export interface CorsResult {
   handled: boolean;
   originAllowed: boolean;
@@ -21,7 +26,9 @@ export function applyCors(
 ): CorsResult {
   const origin = headerValue(req, 'origin');
   const originAllowed =
-    !origin || getEnv().allowedOrigins.includes(origin);
+    !origin ||
+    isLocalDevelopmentOrigin(origin) ||
+    getEnv().allowedOrigins.includes(origin);
 
   if (origin && originAllowed) {
     res.setHeader('Access-Control-Allow-Origin', origin);

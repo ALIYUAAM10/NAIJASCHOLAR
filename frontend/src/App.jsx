@@ -288,10 +288,15 @@ export default function App() {
       return (
         <div className="mx-auto max-w-md py-20 text-center">
           <p className="text-sm text-slate-400">
-            We could not load your profile yet.
+            {error
+              ? `Account sync failed: ${error}`
+              : 'We could not load your profile yet.'}
           </p>
           <button
-            onClick={() => setReloadKey((value) => value + 1)}
+            onClick={() => {
+              setError('');
+              setReloadKey((value) => value + 1);
+            }}
             className="mt-4 rounded-xl bg-emerald-500 px-5 py-2.5 text-sm font-bold text-slate-950"
           >
             Retry

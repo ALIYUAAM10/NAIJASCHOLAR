@@ -147,7 +147,7 @@ export default function Profile({ profile, dashboard, onNavigate, onProfileUpdat
               <span className="text-xl" aria-hidden="true">{item.icon}</span>
               <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">total</span>
             </div>
-            <div className="mt-4 text-2xl font-black tracking-tight text-slate-900">{item.value}</div>
+            <div className="score-value mt-4 text-2xl font-black tracking-tight text-slate-900 tabular-nums">{item.value}</div>
             <div className="mt-1 text-xs font-semibold text-slate-500">{item.label}</div>
           </article>
         ))}
@@ -290,8 +290,8 @@ export default function Profile({ profile, dashboard, onNavigate, onProfileUpdat
                     </div>
                   </div>
                   <div className="shrink-0 text-right">
-                    <div className="text-sm font-black text-slate-900">{attempt.score}/{attempt.totalQuestions}</div>
-                    <div className="text-[10px] font-bold text-emerald-600">{Math.round(attempt.percentage || 0)}%</div>
+                    <div className="score-value text-sm font-black text-slate-900 tabular-nums">{attempt.score}/{attempt.totalQuestions}</div>
+                    <div className="score-value text-[10px] font-bold text-emerald-600 tabular-nums">{Math.round(attempt.percentage || 0)}%</div>
                   </div>
                 </div>
               ))}

@@ -46,7 +46,7 @@ export default function Dashboard({ dashboard, quizzes, onStartQuiz }) {
         <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5 backdrop-blur-sm">
           <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Average Performance</p>
           <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold text-white">{avgScore}%</span>
+            <span className="score-value text-3xl font-extrabold text-white tabular-nums">{avgScore}%</span>
             <span className="text-xs text-teal-400 font-medium">overall score</span>
           </div>
         </div>
@@ -156,10 +156,10 @@ export default function Dashboard({ dashboard, quizzes, onStartQuiz }) {
 
                   <div className="flex items-center gap-4 self-end sm:self-auto">
                     <div className="text-right">
-                      <div className="text-sm font-bold text-white">
+                      <div className="score-value text-sm font-bold text-white tabular-nums">
                         {attempt.score} / {attempt.totalQuestions}
                       </div>
-                      <div className={`text-xs font-semibold ${scorePct >= 50 ? 'text-emerald-400' : 'text-red-400'}`}>
+                      <div className={`score-value text-xs font-semibold tabular-nums ${scorePct >= 50 ? 'text-emerald-400' : 'text-red-400'}`}>
                         {scorePct}% Score
                       </div>
                     </div>

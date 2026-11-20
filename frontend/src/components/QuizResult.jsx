@@ -21,13 +21,13 @@ export default function QuizResult({ result, quiz, questions, onReturnDashboard 
 
         <div className="mb-4">
           <div className="inline-flex items-baseline gap-2">
-            <span className="text-5xl md:text-6xl font-black text-white">{score}</span>
-            <span className="text-xl font-bold text-slate-500">/ {totalQuestions}</span>
+            <span className="score-value text-5xl md:text-6xl font-black text-white tabular-nums">{score}</span>
+            <span className="text-xl font-bold text-slate-500 tabular-nums">/ {totalQuestions}</span>
           </div>
         </div>
 
         <div className="inline-block rounded-2xl bg-slate-950/70 border border-slate-800 px-6 py-3 mb-6">
-          <div className={`text-2xl font-black ${isPassed ? 'text-emerald-400' : 'text-red-400'}`}>
+          <div className={`score-value text-2xl font-black tabular-nums ${isPassed ? 'text-emerald-400' : 'text-red-400'}`}>
             {percentage}% Score
           </div>
           <p className="text-xs text-slate-400 mt-0.5">

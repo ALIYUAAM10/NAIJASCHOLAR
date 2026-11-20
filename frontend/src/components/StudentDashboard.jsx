@@ -268,8 +268,8 @@ export default function StudentDashboard({ profile, dashboard, exams, onNavigate
                       <div className="mt-1 truncate text-sm font-bold text-slate-900">{attempt.title}</div>
                     </div>
                     <div className="shrink-0 text-right">
-                      <div className="text-sm font-black text-slate-900">{attempt.score}/{attempt.totalQuestions}</div>
-                      <div className={`text-[11px] font-bold ${scorePct >= 50 ? 'text-emerald-600' : 'text-red-500'}`}>
+                      <div className="score-value text-sm font-black text-slate-900 tabular-nums">{attempt.score}/{attempt.totalQuestions}</div>
+                      <div className={`score-value text-[11px] font-bold tabular-nums ${scorePct >= 50 ? 'text-emerald-600' : 'text-red-500'}`}>
                         {scorePct}%
                       </div>
                     </div>

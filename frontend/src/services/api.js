@@ -52,7 +52,7 @@ async function request(path, options = {}, allowRetry = true) {
 
     if (!response.ok) {
         const error = payload?.error || {};
-        throw new ApiRequestError(error.message || 'Request failed.', {
+        throw new ApiRequestError(error.message || `Request failed (${response.status}).`, {
             status: response.status,
             code: error.code,
             details: error.details,

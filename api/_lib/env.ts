@@ -11,7 +11,9 @@ const rawEnvSchema = z.object({
   FIREBASE_STORAGE_EMULATOR_HOST: z.string().min(1).optional(),
   ALLOWED_ORIGINS: z
     .string()
-    .default('http://localhost:3000,http://localhost:5173'),
+    .default(
+      'http://localhost:3000,http://localhost:5173,http://localhost:4173,http://127.0.0.1:3000,http://127.0.0.1:5173,http://127.0.0.1:4173',
+    ),
   APP_CHECK_ENFORCE: z.enum(['true', 'false']).default('false'),
   LOG_HASH_SALT: z.string().min(16).default('dev-only-salt-change-me'),
   CRON_SECRET: z.string().min(16).optional(),

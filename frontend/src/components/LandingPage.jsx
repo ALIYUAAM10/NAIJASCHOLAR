@@ -218,7 +218,7 @@ export default function LandingPage({ configError = '' }) {
 
             <div className="glass-chip absolute -bottom-5 -left-5 hidden rounded-2xl px-4 py-3 shadow-xl sm:block">
               <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Average score</div>
-              <div className="text-lg font-black text-emerald-600">78.4%</div>
+              <div className="score-value text-lg font-black text-emerald-600 tabular-nums">78.4%</div>
             </div>
           </div>
         </div>
